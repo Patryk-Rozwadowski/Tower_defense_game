@@ -12,17 +12,24 @@ window.onload = () => {
 
     const gridVectors = [];
 
-    let y = cellHeight;
-    for(let i = 0; i < rows;i++) {
-        let x = cellWidth;
-        y+=cellHeight;
+    let y = 0;
+    for (let i = 0; i < rows; i++) {
+        let x = 0;
+        y += cellHeight;
 
         console.log(gridVectors);
-        for(let j = 0; j < cols;j++) {
-            x+=cellWidth;
-            ctx.rect(x,y,cellWidth,cellHeight);
+        for (let j = 0; j < cols; j++) {
+            x += cellWidth;
+            gridVectors.push(
+                {
+                    tile: {
+                        vector: [x, y],
+                        color: '#fff',
+                    }
+                });
+            ctx.rect(x, y, cellWidth, cellHeight);
+            ctx.fillStyle = gridVectors[0].tile.color;
             ctx.stroke();
-            gridVectors.push([x,y]);
         }
 
         console.log('Grid rendered.')
@@ -34,7 +41,31 @@ window.onload = () => {
         return Math.round(val * multiplier) / multiplier;
     }
 
+    function convertToNearestTen(n) {
+        return Math.ceil(n / 10) * 10;
+    }
+
+    function convertToNearestTenArray(arr) {
+        return arr.map(el => convertToNearestTen(el))
+    }
+
     canvas.addEventListener('click', e => {
-        gridVectors.map(el => console.log(el[0][1]))
+        let rounded = convertToNearestTenArray([e.offsetX, e.offsetY]);
+        console.log(e.clientX, e.clientY)
+
+        gridVectors.map(el => {
+            debugger
+            const xRange = el.tile.vector[0] < e.clientX && el.tile.vector[0] + cellWidth > e.clientX;
+            const yRange = el.tile.vector[1] < e.clientY && el.tile.vector[1] + cellHeight > e.clientY;
+
+            if (xRange && yRange) {
+                console.log(`AUOEHPDGHDGHUPGPHUAGDPHADGPHGDA `);
+
+                ctx.fillStyle = "#FF0000";
+                ctx.fillRect(el.tile.vector[0], el.tile.vector[1], cellWidth, cellHeight);
+                ctx.stroke();
+
+            } else console.log('giose')
+        })
     })
 };
