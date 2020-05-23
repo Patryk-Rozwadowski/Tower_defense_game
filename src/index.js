@@ -1,71 +1,93 @@
+import {MouseManager} from './MouseManager/MouseManager';
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 window.onload = () => {
+    const cols = 15;
+    const rows = 15;
 
-    //window.addEventListener('resize', () => resizeController(ctx));
-    const cols = 20;
-    const rows = 20;
+    const cellWidth = 25;
+    const cellHeight = 25;
+    const cellSize = 25;
+    ctx.canvas.width  = cols * cellWidth;
+    ctx.canvas.height = cellHeight *rows ;
 
-    const cellWidth = 50;
-    const cellHeight = 50;
+    const gameMap = [];
 
-    const gridVectors = [];
+    const mouseManager = new MouseManager(canvas, ctx, cellSize);
+    mouseManager.init();
 
-    let y = 0;
-    for (let i = 0; i < rows; i++) {
-        let x = 0;
-        y += cellHeight;
+    const tile = {
+        id: Math.random(),
+        name: 'block',
+        vector: [0, 0],
+        color: '#222',
+        tower: false,
+    }
 
-        console.log(gridVectors);
-        for (let j = 0; j < cols; j++) {
-            x += cellWidth;
-            gridVectors.push(
-                {
-                    tile: {
-                        vector: [x, y],
-                        color: '#fff',
-                    }
-                });
-            ctx.rect(x, y, cellWidth, cellHeight);
-            ctx.fillStyle = gridVectors[0].tile.color;
-            ctx.stroke();
+    console.log('Grid rendered.')
+    console.log(gameMap);
+
+    function drawMap() {
+        // let y = -1;
+        // for (let i = 0; i < rows; i++) {
+        //     let x = -1;
+        //     y += cellHeight;
+        //     for (let j = 0; j < cols; j++) {
+        //         x += cellWidth;
+        //         debugger
+        //         gameMap.push(createTile(x,y));
+        //
+        //     }
+        // }
+        //
+        //
+        // ctx.save();
+        // ctx.globalAlpha = 0.5;
+        // ctx.lineWidth = 2;
+        //
+        //
+        // for(var i = 0; i < ctx.canvas.width; i++) {
+        //     ctx.beginPath();
+        //     ctx.moveTo(i*cellSize, 0);
+        //     //ctx.lineTo(i*cellSize, canvas.height);
+        //     ctx.stroke();
+        // }
+        // for(var i = 0; i < ctx.canvas.height; i++) {
+        //     ctx.beginPath();
+        //     ctx.moveTo(0, i*cellHeight);
+        //    // ctx.lineTo(canvas.width, i*cellSize);
+        //     ctx.stroke();
+        // }
+        // ctx.restore();
+    }
+    function createTile(x, y) {
+        return {
+
+                id: Math.random(),
+                vector: [x, y],
+                color: '#222',
+                tower: false
+
         }
-
-        console.log('Grid rendered.')
     }
 
-
-    function round(val, prec) {
-        let multiplier = Math.pow(10, prec || 0);
-        return Math.round(val * multiplier) / multiplier;
+    function placeTurret(x,y) {
+        console.log(`Place turret: ${x} ${y}`)
     }
 
-    function convertToNearestTen(n) {
-        return Math.ceil(n / 10) * 10;
+    function draw() {
+        drawMap()
+        requestAnimationFrame(draw);
     }
-
-    function convertToNearestTenArray(arr) {
-        return arr.map(el => convertToNearestTen(el))
-    }
-
     canvas.addEventListener('click', e => {
-        let rounded = convertToNearestTenArray([e.offsetX, e.offsetY]);
-        console.log(e.clientX, e.clientY)
-
-        gridVectors.map(el => {
-            debugger
-            const xRange = el.tile.vector[0] < e.clientX && el.tile.vector[0] + cellWidth > e.clientX;
-            const yRange = el.tile.vector[1] < e.clientY && el.tile.vector[1] + cellHeight > e.clientY;
-
-            if (xRange && yRange) {
-                console.log(`AUOEHPDGHDGHUPGPHUAGDPHADGPHGDA `);
-
-                ctx.fillStyle = "#FF0000";
-                ctx.fillRect(el.tile.vector[0], el.tile.vector[1], cellWidth, cellHeight);
-                ctx.stroke();
-
-            } else console.log('giose')
-        })
+        ctx.save();
+        ctx.globalAlpha = 0.5;
+        ctx.fillRect(a.getMousePos().x,a.getMousePos().y, cellWidth, cellHeight);
+        ctx.restore();
     })
+
+
+    draw();
 };
