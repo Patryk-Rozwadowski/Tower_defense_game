@@ -16,7 +16,6 @@ window.onload = () => {
     const gameMap = [];
 
     const mouseManager = new MouseManager(canvas, ctx, cellSize);
-    mouseManager.init();
 
     const tile = {
         id: Math.random(),
@@ -25,8 +24,8 @@ window.onload = () => {
         color: '#222',
         tower: false,
     }
+    mouseManager.init();
 
-    console.log('Grid rendered.')
     console.log(gameMap);
 
     function drawMap() {
@@ -43,24 +42,24 @@ window.onload = () => {
         // }
         //
         //
-        // ctx.save();
-        // ctx.globalAlpha = 0.5;
-        // ctx.lineWidth = 2;
-        //
-        //
-        // for(var i = 0; i < ctx.canvas.width; i++) {
-        //     ctx.beginPath();
-        //     ctx.moveTo(i*cellSize, 0);
-        //     //ctx.lineTo(i*cellSize, canvas.height);
-        //     ctx.stroke();
-        // }
-        // for(var i = 0; i < ctx.canvas.height; i++) {
-        //     ctx.beginPath();
-        //     ctx.moveTo(0, i*cellHeight);
-        //    // ctx.lineTo(canvas.width, i*cellSize);
-        //     ctx.stroke();
-        // }
-        // ctx.restore();
+
+
+        ctx.globalAlpha = 0.5;
+        ctx.lineWidth = 2;
+
+        for(var i = 0; i < ctx.canvas.width; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i*cellSize, 0);
+            ctx.lineTo(i*cellSize, canvas.height);
+            ctx.stroke();
+        }
+        for(var i = 0; i < ctx.canvas.height; i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, i*cellHeight);
+            ctx.lineTo(canvas.width, i*cellSize);
+            ctx.stroke();
+        }
+
     }
     function createTile(x, y) {
         return {
@@ -74,19 +73,13 @@ window.onload = () => {
     }
 
     function placeTurret(x,y) {
-        console.log(`Place turret: ${x} ${y}`)
+        console.log(`Place turret: ${x} ${y}`);
     }
 
     function draw() {
         drawMap()
         requestAnimationFrame(draw);
     }
-    canvas.addEventListener('click', e => {
-        ctx.save();
-        ctx.globalAlpha = 0.5;
-        ctx.fillRect(a.getMousePos().x,a.getMousePos().y, cellWidth, cellHeight);
-        ctx.restore();
-    })
 
 
     draw();
