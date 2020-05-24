@@ -1,4 +1,4 @@
-import {MouseManager} from './MouseManager/MouseManager';
+import { MouseManager } from './MouseManager/MouseManager';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -9,7 +9,7 @@ window.onload = () => {
 
     const cellWidth = 25;
     const cellHeight = 25;
-    const cellSize = 20;
+    const cellSize = 65;
     ctx.canvas.width  = cols * cellSize;
     ctx.canvas.height = rows * cellSize;
 
@@ -18,29 +18,10 @@ window.onload = () => {
     const mouseManager = new MouseManager(canvas, ctx, cellSize);
 
 
-    let setMap;
 
-    let y = 0;
-    let x = 0;
-    for (let i = 0; i < rows; i++) {
-        gameMap[i] = [];
 
-        if( i > 0 ) y += cellHeight;
 
-        for (let j = 0; j < cols; j++) {
-            if(j > 0) x+= cellSize;
-
-            setMap = createTile(x,y);
-            gameMap[i][j] = setMap;
-
-            // ctx.beginPath()
-            // ctx.moveTo(x,y)
-            // ctx.lineTo(x,y)
-            // ctx.stroke();
-        }
-    }
-
-    const tile = {
+    const wall = {
         id: Math.random(),
         name: 'block',
         vector: [0, 0],
@@ -50,33 +31,51 @@ window.onload = () => {
     mouseManager.init();
 
     function drawMap() {
-        ctx.globalAlpha = 0.5;
-        ctx.lineWidth = 2;
+        let setMap;
 
-        // for(let vector of gameMap) {
-        //    // console.log(vector)
-        // }
+        let y = 0;
+        let x = 0;
+        for (let i = 0; i <= rows; i++) {
+            gameMap[i] = [];
+            x = 0;
 
-        // for(var i = 0; i < ctx.canvas.width; i++) {
-        //     ctx.beginPath();
-        //     ctx.moveTo(i*cellSize, 0);
-        //     //ctx.lineTo(i*cellSize, canvas.height);
-        //     ctx.stroke();
-        // }
-        // for(var i = 0; i < ctx.canvas.height; i++) {
-        //     ctx.beginPath();
-        //     ctx.moveTo(0, i*cellHeight);
-        //     //ctx.lineTo(canvas.width, i*cellSize);
-        //     ctx.stroke();
-        // }
+            if(i>0) y += cellHeight;
+            for (let j = 0; j <= cols; j++) {
+
+                if(j > 0)  x += cellSize;
+
+                setMap = createTile(x,y);
+                gameMap[i][j] = setMap;
+
+                let xVec = gameMap[i][j].vector[0];
+                let yVec = gameMap[i][j].vector[1];
+
+                if( i === 0 && j === 0 || j === 0 || i === 0 || i === rows  || j === cols - 1 ) {
+                    gameMap[i][j] = createWall(y,x);
+                }
+
+                ctx.fillStyle = gameMap[i][j].color;
+                ctx.fillRect(xVec,yVec, cellSize, cellSize)
+
+            }
+        }
 
     }
-    function createTile(x, y) {
+    function createTile(y, x) {
         return {
-
                 id: Math.random(),
-                vector: [x, y],
+                vector: [y, x],
                 color: '#222',
+                tower: true
+        }
+    }
+
+    function createWall(y, x) {
+        return {
+                id: Math.random(),
+                name: 'Wall',
+                vector: [y, x],
+                color: '#FF0000',
                 tower: false
         }
     }
@@ -98,5 +97,5 @@ window.onload = () => {
     }
 
 
-    //draw();
+    draw();
 };
