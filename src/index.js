@@ -17,17 +17,6 @@ window.onload = () => {
 
     const mouseManager = new MouseManager(canvas, ctx, cellSize);
 
-
-
-
-
-    const wall = {
-        id: Math.random(),
-        name: 'block',
-        vector: [0, 0],
-        color: '#222',
-        tower: false,
-    }
     mouseManager.init();
 
     function drawMap() {
@@ -80,10 +69,25 @@ window.onload = () => {
         }
     }
 
+    function createTurret(y,x) {
+        return {
+            y: y,
+            x: x,
+            color: '#fff',
+        }
+    }
+
+    const turrets = [];
+
+    function addTurret(turretParams) {
+        console.log(turretParams)
+        turrets.push(turretParams);
+        console.log(turrets);
+    }
+
     function placeTurret(vector) {
-        // ctx.beginPath();
-        // ctx.rect()
-        gameMap.find(el => el.vector === vector ? console.log('sdf ') : console.log('nope'))
+
+        addTurret(createTurret(vector.y*cellSize, vector.x*cellSize))
         console.log(`Place turret: ${vector.x} ${vector.y}`);
 
         console.log(gameMap)
@@ -92,7 +96,10 @@ window.onload = () => {
 
     function draw() {
         drawMap()
-
+        turrets.map(el => {
+            ctx.fillStyle = el.color;
+            ctx.fillRect(el.x, el.y, cellSize, cellSize)
+        })
         requestAnimationFrame(draw);
     }
 
