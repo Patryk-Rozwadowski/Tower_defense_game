@@ -1,4 +1,5 @@
 import { MouseManager } from './MouseManager/MouseManager';
+import { CreateWalls } from './CreateElement/Walls/CreateWalls';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -7,8 +8,6 @@ window.onload = () => {
     const cols = 25;
     const rows = 25;
 
-    const cellWidth = 25;
-    const cellHeight = 25;
     const cellSize = 65;
     ctx.canvas.width  = cols * cellSize;
     ctx.canvas.height = rows * cellSize;
@@ -16,30 +15,33 @@ window.onload = () => {
     const gameMap = [];
 
     const mouseManager = new MouseManager(canvas, ctx, cellSize);
-
+    const walls = new CreateWalls(canvas, ctx)
     mouseManager.init();
 
     function drawMap() {
         let setMap;
-
         let y = 0;
         let x = 0;
+
         for (let i = 0; i <= rows; i++) {
             gameMap[i] = [];
             x = 0;
+            if(i>0) y += cellSize;
 
-            if(i>0) y += cellHeight;
             for (let j = 0; j <= cols; j++) {
-
                 if(j > 0)  x += cellSize;
 
-                setMap = createTile(x,y);
+                setMap = createTile(y,x);
                 gameMap[i][j] = setMap;
 
                 let xVec = gameMap[i][j].vector[0];
                 let yVec = gameMap[i][j].vector[1];
 
-                if( i === 0 && j === 0 || j === 0 || i === 0 || i === rows  || j === cols - 1 ) {
+
+                if( walls.createUpperWall(j) ||
+                    walls.createLeftWall(i)  ||
+                    walls.createRightWall(i+1, cols) ||
+                    walls.createBottomWall(j+1, rows)) {
                     gameMap[i][j] = createWall(y,x);
                 }
 
@@ -79,15 +81,8 @@ window.onload = () => {
 
     const turrets = [];
 
-    function addTurret(turretParams) {
-        console.log(turretParams)
-        turrets.push(turretParams);
-        console.log(turrets);
-    }
-
     function placeTurret(vector) {
-
-        addTurret(createTurret(vector.y*cellSize, vector.x*cellSize))
+        turrets.push(createTurret(vector.y*cellSize, vector.x*cellSize));
         console.log(`Place turret: ${vector.x} ${vector.y}`);
 
         console.log(gameMap)
