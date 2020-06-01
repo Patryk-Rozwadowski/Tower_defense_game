@@ -1,27 +1,30 @@
 import { MouseManager } from './MouseManager/MouseManager';
 import { CreateWalls } from './CreateElement/Walls/CreateWalls';
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+
 
 window.onload = () => {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
     const cols = 25;
     const rows = 25;
+    const cellSize = 20;
 
-    const cellSize = 65;
     ctx.canvas.width  = cols * cellSize;
     ctx.canvas.height = rows * cellSize;
-
-    const gameMap = [];
+    ctx.globalAlpha = 1;
 
     const mouseManager = new MouseManager(canvas, ctx, cellSize);
     const walls = new CreateWalls(canvas, ctx)
-    mouseManager.init();
 
+    canvas.addEventListener('click', () => placeTurret(mouseManager.getMousePosPerTile()))
+
+    const gameMap = [];
     function drawMap() {
         let setMap;
         let y = 0;
         let x = 0;
+
 
         for (let i = 0; i <= rows; i++) {
             gameMap[i] = [];
@@ -30,7 +33,6 @@ window.onload = () => {
 
             for (let j = 0; j <= cols; j++) {
                 if(j > 0)  x += cellSize;
-
                 setMap = createTile(y,x);
                 gameMap[i][j] = setMap;
 
@@ -50,7 +52,6 @@ window.onload = () => {
 
             }
         }
-
     }
     function createTile(y, x) {
         return {
@@ -84,20 +85,21 @@ window.onload = () => {
     function placeTurret(vector) {
         turrets.push(createTurret(vector.y*cellSize, vector.x*cellSize));
         console.log(`Place turret: ${vector.x} ${vector.y}`);
-
         console.log(gameMap)
     }
-    canvas.addEventListener('click', () => placeTurret(mouseManager.getMousePosPerTile()))
+    mouseManager.mouseMoveHandler(mouseManager.normalizationCursorPosition)
 
     function draw() {
-        drawMap()
+        ctx.clearRect(0, 0, 2000, 2000);
+        drawMap();
+
+        mouseManager.drawMousePosition();
+
         turrets.map(el => {
             ctx.fillStyle = el.color;
             ctx.fillRect(el.x, el.y, cellSize, cellSize)
         })
         requestAnimationFrame(draw);
     }
-
-
     draw();
 };

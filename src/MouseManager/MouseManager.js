@@ -10,43 +10,30 @@ export class MouseManager {
     this.cellSize = cellSize;
   }
 
-  init() {
-    this.mouseMoveHandler()
-    this.mouseClickHandler()
+  mouseMoveHandler(handler) {
+    const self = this;
+    this.canvas.addEventListener('mousemove', event => handler(event, self));
   }
 
-  mouseMoveHandler() {
-    const self = this;
-    this.canvas.addEventListener('mousemove', (e) => {
-      self.ctx.clearRect(0,0,self.canvas.width, self.canvas.height);
-      self.normalizationCursorPosition(e)
-      self.drawMousePosition()
-    })
+  mouseClickHandler(handler) {
+
   }
 
-  mouseClickHandler() {
-    const self = this;
-    this.canvas.addEventListener('click', e => {
-      self.normalizationCursorPosition(e);
-      return self.getMousePosCanvas();
-    });
+  normalizationCursorPosition(e, self) {
+    let rect = self.canvas.getBoundingClientRect();
+    self.x = e.clientX - rect.left;
+    self.y = e.clientY - rect.top;
+    self.cellX = ~~(self.x/self.cellSize);
+    self.cellY = ~~(self.y/self.cellSize);
   }
 
   drawMousePosition() {
-    this.ctx.globalAlpha = 0.5;
-    this.ctx.fillRect(this.getMousePosPerTile().x * this.cellSize,this.getMousePosPerTile().y*this.cellSize, this.cellSize, this.cellSize);
+    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    this.ctx.fillRect(this.getMousePosPerTile().x*this.cellSize, this.getMousePosPerTile().y*this.cellSize, 20, 20)
   }
 
   placeTurret() {
     this.ctx.fillRect(this.getMousePosPerTile().x * this.cellSize,this.getMousePosPerTile().y*this.cellSize, this.cellSize, this.cellSize);
-  }
-
-  normalizationCursorPosition(e) {
-    let rect = this.canvas.getBoundingClientRect();
-    this.x = e.clientX - rect.left;
-    this.y = e.clientY - rect.top;
-    this.cellX = ~~(this.x/this.cellSize);
-    this.cellY = ~~(this.y/this.cellSize);
   }
 
   getMousePosPerTile() {
