@@ -1,3 +1,4 @@
+// @todo change naming for walls
 export class CreateWalls {
   constructor(canvas, ctx) {
     this.canvas = canvas;
@@ -26,4 +27,14 @@ export class CreateWalls {
   createRightWall(row, lastColumns) {
     return row === lastColumns;
   }
-};
+}
+
+export function createWall(y, x) {
+  return {
+    id: Math.random(),
+    name: 'Wall',
+    vector: [y, x],
+    color: '#FF0000',
+    tower: false,
+  };
+}

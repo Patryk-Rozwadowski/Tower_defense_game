@@ -15,11 +15,11 @@ export class MouseManager {
   }
 
   mouseClickHandler(handler) {
-    this.canvas.addEventListener('click', handler)
+    this.canvas.addEventListener('click', handler);
   }
 
   // move to another class
-  createTurret(){
+  createTurret() {
     this.mouseClickHandler(this.getMousePosPerTile());
   }
 
@@ -27,31 +27,41 @@ export class MouseManager {
     let rect = this.canvas.getBoundingClientRect();
     this.x = e.clientX - rect.left;
     this.y = e.clientY - rect.top;
-    this.cellX = ~~(this.x/this.cellSize);
-    this.cellY = ~~(this.y/this.cellSize);
+    this.cellX = ~~(this.x / this.cellSize);
+    this.cellY = ~~(this.y / this.cellSize);
   }
 
   drawMousePosition() {
     const self = this;
-    this.mouseMoveHandler(event => self.normalizationCursorPosition(event));
+    this.mouseMoveHandler((event) => self.normalizationCursorPosition(event));
     this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    this.ctx.fillRect(this.getMousePosPerTile().x*this.cellSize, this.getMousePosPerTile().y*this.cellSize, 20, 20);
+    this.ctx.fillRect(
+      this.getMousePosPerTile().x * this.cellSize,
+      this.getMousePosPerTile().y * this.cellSize,
+      20,
+      20
+    );
   }
 
   placeTurret() {
-    this.ctx.fillRect(this.getMousePosPerTile().x * this.cellSize,this.getMousePosPerTile().y*this.cellSize, this.cellSize, this.cellSize);
+    this.ctx.fillRect(
+      this.getMousePosPerTile().x * this.cellSize,
+      this.getMousePosPerTile().y * this.cellSize,
+      this.cellSize,
+      this.cellSize
+    );
   }
 
   getMousePosPerTile() {
     return {
       x: this.cellX,
-      y: this.cellY
-    }
+      y: this.cellY,
+    };
   }
 
   getMousePosCanvas() {
     let x = Math.ceil(this.x / 10) * 10;
     let y = Math.ceil(this.y / 10) * 10;
-    return [x,y]
+    return [x, y];
   }
 }
