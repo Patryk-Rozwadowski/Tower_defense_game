@@ -10,6 +10,9 @@ window.onload = () => {
     const rows = 25;
     const cellSize = 20;
 
+    const turrets = [];
+    const gameMap = [];
+
     ctx.canvas.width  = cols * cellSize;
     ctx.canvas.height = rows * cellSize;
     ctx.globalAlpha = 1;
@@ -17,14 +20,10 @@ window.onload = () => {
     const mouseManager = new MouseManager(canvas, ctx, cellSize);
     const walls = new CreateWalls(canvas, ctx)
 
-    canvas.addEventListener('click', () => placeTurret(mouseManager.getMousePosPerTile()))
-
-    const gameMap = [];
     function drawMap() {
         let setMap;
         let y = 0;
         let x = 0;
-
 
         for (let i = 0; i <= rows; i++) {
             gameMap[i] = [];
@@ -80,21 +79,19 @@ window.onload = () => {
         }
     }
 
-    const turrets = [];
 
     function placeTurret(vector) {
         turrets.push(createTurret(vector.y*cellSize, vector.x*cellSize));
         console.log(`Place turret: ${vector.x} ${vector.y}`);
         console.log(gameMap)
     }
-    mouseManager.mouseMoveHandler(mouseManager.normalizationCursorPosition)
+
+
+    mouseManager.mouseClickHandler(() => placeTurret(mouseManager.getMousePosPerTile()));
 
     function draw() {
-        ctx.clearRect(0, 0, 2000, 2000);
         drawMap();
-
         mouseManager.drawMousePosition();
-
         turrets.map(el => {
             ctx.fillStyle = el.color;
             ctx.fillRect(el.x, el.y, cellSize, cellSize)
