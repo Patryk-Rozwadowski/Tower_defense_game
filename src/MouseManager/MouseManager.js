@@ -18,11 +18,6 @@ export class MouseManager {
     this.canvas.addEventListener('click', handler);
   }
 
-  // move to another class
-  createTurret() {
-    this.mouseClickHandler(this.getMousePosPerTile());
-  }
-
   normalizationCursorPosition(e) {
     let rect = this.canvas.getBoundingClientRect();
     this.x = e.clientX - rect.left;
@@ -36,17 +31,8 @@ export class MouseManager {
     this.mouseMoveHandler((event) => self.normalizationCursorPosition(event));
     this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     this.ctx.fillRect(
-      this.getMousePosPerTile().x * this.cellSize,
-      this.getMousePosPerTile().y * this.cellSize,
-      20,
-      20
-    );
-  }
-
-  placeTurret() {
-    this.ctx.fillRect(
-      this.getMousePosPerTile().x * this.cellSize,
-      this.getMousePosPerTile().y * this.cellSize,
+      this.cellX * this.cellSize,
+      this.cellY * this.cellSize,
       this.cellSize,
       this.cellSize
     );
@@ -57,11 +43,5 @@ export class MouseManager {
       x: this.cellX,
       y: this.cellY,
     };
-  }
-
-  getMousePosCanvas() {
-    let x = Math.ceil(this.x / 10) * 10;
-    let y = Math.ceil(this.y / 10) * 10;
-    return [x, y];
   }
 }
