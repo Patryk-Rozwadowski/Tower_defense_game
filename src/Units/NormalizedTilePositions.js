@@ -1,1 +1,1 @@
-export const normalizedTilePositions = (vector,cellSize) => vector * cellSize;
+export const normalizedTilePositions = (vector, cellSize) => vector * cellSize;
