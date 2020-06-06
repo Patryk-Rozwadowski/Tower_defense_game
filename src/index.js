@@ -1,5 +1,6 @@
 import { MouseManager } from './MouseManager/MouseManager';
 import { renderMap } from './CreateElement/MapElement/renderMap';
+import { normalizedTilePositions } from './Units/NormalizedTilePositions';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -20,13 +21,42 @@ window.onload = () => {
       y: y,
       x: x,
       color: '#fff',
+      type: 'turret',
+      turret: true,
     };
   }
 
   function placeTurret(vector) {
-    turrets.push(createTurret(vector.y * cellSize, vector.x * cellSize));
-    console.log(`Place turret: ${vector.x} ${vector.y}`);
-    console.log(gameMap);
+    const vectorNormY = normalizedTilePositions(vector.y, cellSize);
+    const vectorNormX = normalizedTilePositions(vector.x, cellSize);
+
+    let freeTile = checkIfTileIsFree(vector, turrets);
+
+    if (turrets.length === 0 || freeTile)
+      turrets.push(createTurret(vectorNormY, vectorNormX));
+    console.log(turrets);
+  }
+
+  function checkIfTileIsFree(vector, turrets) {
+    let freeTile;
+
+    for (let i = 0; i < turrets.length; i++) {
+      const turretChosenTileSameVectors =
+        turrets[i].x === normalizedTilePositions(vector.x, cellSize) &&
+        turrets[i].y === normalizedTilePositions(vector.y, cellSize);
+
+      const turretChosenTileDiffVectors =
+        turrets[i].x !== normalizedTilePositions(vector.x, cellSize) &&
+        turrets[i].y !== normalizedTilePositions(vector.y, cellSize);
+
+      // Check if tile is already taken
+      if (turretChosenTileSameVectors) {
+        freeTile = false;
+      } else if (turretChosenTileDiffVectors) {
+        freeTile = true;
+      }
+    }
+    return freeTile;
   }
 
   mouseManager.mouseClickHandler(() =>
@@ -41,6 +71,7 @@ window.onload = () => {
       ctx.fillStyle = el.color;
       ctx.fillRect(el.x, el.y, cellSize, cellSize);
     });
+
     requestAnimationFrame(draw);
   }
   draw();

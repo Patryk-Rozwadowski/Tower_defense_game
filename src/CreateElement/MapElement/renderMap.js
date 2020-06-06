@@ -4,9 +4,9 @@ import {
   isLeftWall,
   isRightWall,
   isUpperWall,
-} from './Walls/WallsUtils';
+} from './Walls/wallsUtils';
 
-import { createWallTile } from './Walls/CreateWallTile';
+import { createWallTile } from './Walls/createWallTile';
 
 export function renderMap(ctx, gameMap, rows, cols, cellSize) {
   let y = 0;
