@@ -19,5 +19,8 @@
   "dependencies": {
     "parcel": "^1.12.4",
     "prettier": "^2.0.5"
+  },
+  "devDependencies": {
+    "sass": "^1.26.8"
   }
 }

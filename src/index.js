@@ -1,7 +1,7 @@
 import { MouseManager } from './Managers/MouseManager/MouseManager';
-import { renderMap } from './CreateElement/MapElement/renderMap';
 import { TurretsManager } from './Managers/TurretManager/TurretManager';
 import { MapManager } from './Managers/MapManager/MapManager';
+import { ShopManager } from './Managers/ShopManager/ShopManager';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -17,14 +17,18 @@ window.onload = () => {
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
   const turretsManager = new TurretsManager(canvas, ctx, cellSize);
   const mapManager = new MapManager(canvas, ctx, cellSize);
+  const shopManager = new ShopManager();
 
-  mouseManager.mouseClickHandler(() =>
+  shopManager.init();
+
+  mouseManager.gameMouseClickHandler(() =>
     turretsManager.placeTurret(mouseManager.getMousePosPerTile())
   );
 
   function draw() {
     mapManager.renderMap();
     mouseManager.drawMousePosition();
+
     turretsManager.renderTurrets();
     requestAnimationFrame(draw);
   }

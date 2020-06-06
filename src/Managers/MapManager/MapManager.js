@@ -47,6 +47,10 @@ export class MapManager {
     }
   }
 
+  getGameMap() {
+    return this.gameMap;
+  }
+
   _createAndAddRow(i) {
     this.gameMap[i] = [];
   }

@@ -10,11 +10,11 @@ export class MouseManager {
     this.cellSize = cellSize;
   }
 
-  mouseMoveHandler(handler) {
+  gameMouseMoveHandler(handler) {
     this.canvas.addEventListener('mousemove', handler);
   }
 
-  mouseClickHandler(handler) {
+  gameMouseClickHandler(handler) {
     this.canvas.addEventListener('click', handler);
   }
 
@@ -28,7 +28,9 @@ export class MouseManager {
 
   drawMousePosition() {
     const self = this;
-    this.mouseMoveHandler((event) => self.normalizationCursorPosition(event));
+    this.gameMouseMoveHandler((event) =>
+      self.normalizationCursorPosition(event)
+    );
     this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     this.ctx.fillRect(
       this.cellX * this.cellSize,
