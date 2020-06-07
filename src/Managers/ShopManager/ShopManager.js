@@ -3,8 +3,9 @@ import { shopTurretList } from './templates/shopTurretList/shopTurretList';
 
 export class ShopManager {
   constructor() {
-    this.money = 0;
+    this.money = 50;
     this.shopRoot = document.getElementById('shop');
+    this.pickedTurret = 'powerTurret';
   }
 
   init() {
@@ -12,6 +13,7 @@ export class ShopManager {
     this.pickedTurretType();
   }
 
+  // MONEY
   getMoney() {
     return this.money;
   }
@@ -20,10 +22,17 @@ export class ShopManager {
     this.money = value;
   }
 
-  pickedTurretType() {
-    this._shopClickHandler(this._chooseTurret);
+  // TURRETS
+  getPickedTurret() {
+    console.log(`getPickedTurret ${this.pickedTurret}`);
+    return this.pickedTurret;
   }
 
+  pickedTurretType() {
+    this._shopClickHandler((e) => this._chooseTurret(e));
+  }
+
+  // PRIVATE
   _shopClickHandler(handler) {
     this.shopRoot.addEventListener('click', handler);
   }
@@ -36,6 +45,7 @@ export class ShopManager {
   }
 
   _chooseTurret(e) {
-    console.log(e.target.value);
+    this.pickedTurret = e.target.id;
+    return this.pickedTurret;
   }
 }

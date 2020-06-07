@@ -1,4 +1,4 @@
-export function fastFiringTurret(y, x) {
+export function createFastFiringTurret(x, y) {
   return {
     y: y,
     x: x,

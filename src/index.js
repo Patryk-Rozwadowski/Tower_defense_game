@@ -20,10 +20,12 @@ window.onload = () => {
   const shopManager = new ShopManager();
 
   shopManager.init();
-
-  mouseManager.gameMouseClickHandler(() =>
-    turretsManager.placeTurret(mouseManager.getMousePosPerTile())
-  );
+  mouseManager.gameMouseClickHandler(() => {
+    turretsManager.placeTurret(
+      shopManager.getPickedTurret(),
+      mouseManager.getMousePosPerTile()
+    );
+  });
 
   function draw() {
     mapManager.renderMap();

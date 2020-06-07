@@ -11,21 +11,43 @@ export class TurretsManager {
     this.turrets = [];
   }
 
-  placeTurret(vector) {
+  placeTurret(pickedTurret, vector) {
     const vectorNormY = normalizedTilePositions(vector.y, this.cellSize);
     const vectorNormX = normalizedTilePositions(vector.x, this.cellSize);
 
     let freeTile = checkIfTileIsFree(vector, this.turrets, this.cellSize);
-
+    debugger;
     if (this.turrets.length === 0 || freeTile)
-      this.turrets.push(createTurret(vectorNormY, vectorNormX));
-    console.log(this.turrets);
+      this.turrets.push(createTurret(pickedTurret, vectorNormX, vectorNormY));
   }
 
   renderTurrets() {
     this.turrets.map((el) => {
-      this.ctx.fillStyle = el.color;
-      this.ctx.fillRect(el.x, el.y, this.cellSize, this.cellSize);
+      switch (el.type) {
+        case 'fastFiringTurret':
+          this.ctx.beginPath();
+          this.ctx.fillStyle = el.color;
+
+          // rendering in the center of cursor position square
+          this.ctx.arc(
+            el.x + this.cellSize / 2,
+            el.y + this.cellSize / 2,
+            this.cellSize / 3,
+            0,
+            2 * Math.PI
+          );
+
+          this.ctx.fill();
+          this.ctx.stroke();
+          break;
+
+        case 'powerTurret':
+          this.ctx.beginPath();
+          this.ctx.fillStyle = el.color;
+          this.ctx.fillRect(el.x, el.y, this.cellSize, this.cellSize);
+          this.ctx.stroke();
+          break;
+      }
     });
   }
 
