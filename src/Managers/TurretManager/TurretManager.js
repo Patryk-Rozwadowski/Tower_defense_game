@@ -16,7 +16,6 @@ export class TurretsManager {
     const vectorNormX = normalizedTilePositions(vector.x, this.cellSize);
 
     let freeTile = checkIfTileIsFree(vector, this.turrets, this.cellSize);
-    debugger;
     if (this.turrets.length === 0 || freeTile)
       this.turrets.push(createTurret(pickedTurret, vectorNormX, vectorNormY));
   }
@@ -42,6 +41,7 @@ export class TurretsManager {
           break;
 
         case 'powerTurret':
+          console.log(this.turrets);
           this.ctx.beginPath();
           this.ctx.fillStyle = el.color;
           this.ctx.fillRect(el.x, el.y, this.cellSize, this.cellSize);
