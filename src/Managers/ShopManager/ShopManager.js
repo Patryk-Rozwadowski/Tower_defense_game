@@ -3,7 +3,7 @@ import { shopTurretList } from './templates/shopTurretList/shopTurretList';
 
 export class ShopManager {
   constructor() {
-    this.money = 40;
+    this.money = 140;
     this.shopRoot = document.getElementById('shop');
     this.pickedTurret = 'powerTurret';
   }

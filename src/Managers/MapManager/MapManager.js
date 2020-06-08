@@ -6,6 +6,7 @@ import {
 } from '../../CreateElement/MapElement/Walls/wallsUtils';
 import { createWallTile } from '../../CreateElement/MapElement/Walls/createWallTile';
 import { createTerrainTile } from '../../CreateElement/MapElement/createTerrainTile';
+import { createSpawnPoints } from '../../CreateElement/MapElement/SpawnPoints/createSpawnPoints';
 
 export class MapManager {
   constructor(canvas, ctx, cellSize) {
@@ -29,6 +30,7 @@ export class MapManager {
       this._createAndAddRow(i);
 
       if (i > 0) this.y += this.cellSize;
+      //if(i === this.rows / 2 )
       for (let j = 0; j <= this.cols; j++) {
         if (j > 0) this.x += this.cellSize;
 
@@ -64,6 +66,17 @@ export class MapManager {
     ) {
       this.gameMap[i][j] = createWallTile(this.x, this.y);
     }
+
+    if (this._isSpawnPoint(i, j, this.rows))
+      this.gameMap[i][j] = createSpawnPoints(this.x, this.y);
+  }
+
+  _isSpawnPoint(i, j, rows) {
+    // Calculate center point for rows
+    return (
+      (i === Math.round(rows / 2 - 1) && j === 0) ||
+      (i === Math.round(rows / 2 - 1) && j === rows - 1)
+    );
   }
 
   _createAndAddTerrain(i, j) {
