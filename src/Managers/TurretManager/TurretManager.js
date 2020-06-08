@@ -41,7 +41,6 @@ export class TurretsManager {
           break;
 
         case 'powerTurret':
-          console.log(this.turrets);
           this.ctx.beginPath();
           this.ctx.fillStyle = el.color;
           this.ctx.fillRect(el.x, el.y, this.cellSize, this.cellSize);

@@ -21,10 +21,18 @@ window.onload = () => {
 
   shopManager.init();
   mouseManager.gameMouseClickHandler(() => {
-    turretsManager.placeTurret(
-      shopManager.getPickedTurret(),
-      mouseManager.getMousePosPerTile()
-    );
+    if (shopManager.money > 0) {
+      turretsManager.placeTurret(
+        shopManager.getPickedTurret(),
+        mouseManager.getMousePosPerTile()
+      );
+
+      shopManager.setMoney(shopManager.getMoney() - 5);
+      shopManager.renderPanel();
+    } else {
+      // @todo add better notification for user
+      console.warn('no Money');
+    }
   });
 
   function draw() {
