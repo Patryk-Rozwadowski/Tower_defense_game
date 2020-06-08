@@ -9,14 +9,19 @@ export class TurretsManager {
 
     this.cellSize = cellSize;
     this.turrets = [];
+    this.turretPlacedSuccess = true;
   }
 
   placeTurret(pickedTurret, vector) {
     const vectorNormY = normalizedTilePositions(vector.y, this.cellSize);
     const vectorNormX = normalizedTilePositions(vector.x, this.cellSize);
 
-    let freeTile = checkIfTileIsFree(vector, this.turrets, this.cellSize);
-    if (this.turrets.length === 0 || freeTile)
+    this.turretPlacedSuccess = checkIfTileIsFree(
+      vector,
+      this.turrets,
+      this.cellSize
+    );
+    if (this.turrets.length === 0 || this.turretPlacedSuccess)
       this.turrets.push(createTurret(pickedTurret, vectorNormX, vectorNormY));
   }
 
@@ -48,6 +53,10 @@ export class TurretsManager {
           break;
       }
     });
+  }
+
+  isTurretPlacedSuccess() {
+    return this.turretPlacedSuccess;
   }
 
   getTurrets() {

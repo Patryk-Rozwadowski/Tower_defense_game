@@ -27,8 +27,10 @@ window.onload = () => {
         mouseManager.getMousePosPerTile()
       );
 
-      shopManager.setMoney(shopManager.getMoney() - 5);
-      shopManager.renderPanel();
+      if (turretsManager.isTurretPlacedSuccess()) {
+        shopManager.setMoney(shopManager.getMoney() - 5);
+        shopManager.renderPanel();
+      }
     } else {
       // @todo add better notification for user
       console.warn('no Money');

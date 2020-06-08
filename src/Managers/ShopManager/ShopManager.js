@@ -10,7 +10,7 @@ export class ShopManager {
 
   init() {
     this.renderPanel();
-    this.pickedTurretType();
+    this.pickTurretType();
   }
 
   // MONEY
@@ -24,12 +24,11 @@ export class ShopManager {
 
   // TURRETS
   getPickedTurret() {
-    console.log(`getPickedTurret ${this.pickedTurret}`);
     return this.pickedTurret;
   }
 
-  pickedTurretType() {
-    this._shopClickHandler((e) => this._chooseTurret(e));
+  pickTurretType() {
+    this._shopClickHandler((e) => this._setPickedTurret(e));
   }
 
   renderPanel() {
@@ -44,8 +43,8 @@ export class ShopManager {
     this.shopRoot.addEventListener('click', handler);
   }
 
-  _chooseTurret(e) {
+  _setPickedTurret(e) {
     this.pickedTurret = e.target.id;
-    return this.pickedTurret;
+    return this.getPickedTurret();
   }
 }
