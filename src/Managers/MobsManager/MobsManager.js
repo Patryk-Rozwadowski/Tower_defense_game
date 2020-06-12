@@ -1,30 +1,43 @@
+import { FastMob, TankMob } from '../../CreateElement/Mobs/createTankMob';
+
 export class MobsManager {
   constructor(ctx, spawnPoints, cellSize) {
     this.ctx = ctx;
     this.cellSize = cellSize;
-    this.x = 0;
-    this.y = 0;
-
-    this.spawnPoints = spawnPoints;
+    this.x = spawnPoints.x + 10;
+    this.y = spawnPoints.y;
 
     this.mobSize = 5;
+
+    this.mobs = [];
   }
 
-  init() {
-    this.ctx.beginPath();
-    this.ctx.fillStyle = '#FF8c8fae';
+  renderMob(mobInfo) {
+    let time = 0;
+    // @todo asynch time for mobs
+    mobInfo.map((mob) => {
+      switch (mob) {
+        case 'tank':
+          const tank = new TankMob(this.ctx, this.cellSize, this.x, this.y);
+          setTimeout(() => {
+            this.mobs.push(tank);
+            console.log('Added Tank');
+          }, Math.floor(Math.random() * 2 * time++) * 1000);
+          break;
 
-    console.log(this.spawnPoints);
+        case 'fast':
+          const fast = new FastMob(this.ctx, this.cellSize, this.x, this.y);
+          setTimeout(() => {
+            this.mobs.push(fast);
+            console.log('Added Fast');
+          }, Math.floor(Math.random() * 2 * time++) * 1000);
 
-    // X position is for "simulation" how mob is coming from out of the map
-    this.ctx.arc(
-      this.spawnPoints.x + this.cellSize + this.mobSize + 1,
-      this.spawnPoints.y + this.cellSize / 2,
-      this.mobSize,
-      0,
-      2 * Math.PI
-    );
-    this.ctx.fill();
-    this.ctx.stroke();
+          break;
+      }
+    });
+  }
+
+  move() {
+    this.mobs.map((mob) => mob.render());
   }
 }

@@ -76,9 +76,10 @@ export class MapManager {
   }
 
   _createSpawnAndAddPoints(i, j) {
-    if (this._isSpawnPoint(i, j, this.rows)) {
+    if (this._isSpawnPoint(i, j, this.rows || this.spawnPoints.length === 0)) {
       this.gameMap[i][j] = createSpawnPoints(this.x, this.y);
-      this.spawnPoints = { x: this.x, y: this.y };
+      // @todo X hardcoded
+      this.spawnPoints = { x: 0, y: this.y };
     }
   }
 

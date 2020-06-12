@@ -33,8 +33,8 @@ export class ShopManager {
 
   renderPanel() {
     this.shopRoot.innerHTML = `
-    ${shopMenuHeader(this.money)}
-    ${shopTurretList()}
+      ${shopMenuHeader(this.money)}
+      ${shopTurretList()}
     `;
   }
 
