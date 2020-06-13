@@ -25,7 +25,8 @@ window.onload = () => {
   const mobsManager = new MobsManager(
     ctx,
     mapManager.getSpawnPoints(),
-    cellSize
+    cellSize,
+    turretsManager.getTurrets()
   );
 
   function createWave() {

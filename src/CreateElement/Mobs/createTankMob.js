@@ -10,6 +10,7 @@ export const mobCreator = (
   speed
 ) => {
   const self = {
+    id: Math.random(),
     ctx,
     cellSize,
     x,
@@ -28,17 +29,24 @@ export const mobCreator = (
   });
 
   const mobRender = () => ({
-    render: () => {
+    // Self returning from mapping in waveMobsMove
+    move: (self) => {
+      self.x += speed;
+    },
+    render: (self) => {
       ctx.beginPath();
-      ctx.fillStyle = color;
-      ctx.arc(x - size + 10, y + cellSize / 2, size, 0, 2 * Math.PI);
+      ctx.fillStyle = self.color;
+      ctx.arc(
+        self.x - self.size + 10,
+        self.y + self.cellSize / 2,
+        self.size,
+        0,
+        2 * Math.PI
+      );
       ctx.fill();
       ctx.stroke();
-
-      // MOVE
-      x += speed;
     },
   });
 
-  return Object.assign(self, mobRender(), logger(self.type));
+  return Object.assign(self, mobRender(self.x), logger(self.type));
 };

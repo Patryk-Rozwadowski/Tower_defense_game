@@ -1,19 +1,17 @@
-import {
-  FastMob,
-  mobCreator,
-  TankMob,
-} from '../../CreateElement/Mobs/createTankMob';
+import { mobCreator } from '../../CreateElement/Mobs/createTankMob';
 import { mobsModel } from '../../CreateElement/Mobs/Models/tankModel';
 
 export class MobsManager {
-  constructor(ctx, spawnPoints, cellSize) {
+  constructor(ctx, spawnPoints, cellSize, turrets) {
     this.ctx = ctx;
     this.cellSize = cellSize;
-    this.x = spawnPoints.x - 155 + Math.floor(Math.random() * 155);
+    this.x = spawnPoints.x;
     this.y = spawnPoints.y;
     this.mobs = [];
+    this.turrets = turrets;
   }
 
+  //- 155 + Math.floor(Math.random() * 155)
   renderMob(wave) {
     let time = 0;
     // @todo find better solution for timing
@@ -39,7 +37,8 @@ export class MobsManager {
 
   waveMobsMove() {
     this.mobs.map((mob) => {
-      mob.render();
+      mob.move(mob);
+      mob.render(mob);
     });
   }
 }
