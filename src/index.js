@@ -3,8 +3,6 @@ import { TurretsManager } from './Managers/TurretManager/TurretManager';
 import { MapManager } from './Managers/MapManager/MapManager';
 import { ShopManager } from './Managers/ShopManager/ShopManager';
 import { MobsManager } from './Managers/MobsManager/MobsManager';
-import { createFastMob } from './CreateElement/Mobs/createFastMob';
-import { createTankMob } from './CreateElement/Mobs/createTankMob';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -34,14 +32,14 @@ window.onload = () => {
     const fast = 'fast';
     const tank = 'tank';
 
-    const wave = [fast, tank, tank, fast, tank, tank];
+    const wave = [tank, tank, tank, fast, fast];
     mobsManager.renderMob(wave);
   }
 
   function draw() {
     mapManager.renderMap();
     mouseManager.drawMousePosition();
-    mobsManager.move();
+    mobsManager.waveMobsMove();
     turretsManager.renderTurrets();
 
     requestAnimationFrame(draw);

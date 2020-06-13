@@ -1,12 +1,3 @@
-export function createTankMob() {
-  return {
-    id: Math.floor(Math.random() * 100),
-    color: '#fff',
-    type: 'tankMob',
-    speed: 0.1,
-    hp: 500,
-  };
-}
 // @todo delete duplicates
 export class TankMob {
   constructor(ctx, cellSize, x, y) {

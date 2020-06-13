@@ -8,13 +8,14 @@ export class MobsManager {
     this.y = spawnPoints.y;
 
     this.mobSize = 5;
-
     this.mobs = [];
   }
 
   renderMob(mobInfo) {
     let time = 0;
-    // @todo asynch time for mobs
+    let timeFast = 0;
+
+    // @todo find better solution
     mobInfo.map((mob) => {
       switch (mob) {
         case 'tank':
@@ -22,22 +23,23 @@ export class MobsManager {
           setTimeout(() => {
             this.mobs.push(tank);
             console.log('Added Tank');
-          }, Math.floor(Math.random() * 2 * time++) * 1000);
+          }, Math.floor(Math.random() * 10 * time++) * 1000);
           break;
 
         case 'fast':
           const fast = new FastMob(this.ctx, this.cellSize, this.x, this.y);
           setTimeout(() => {
+            timeFast += 0.5;
             this.mobs.push(fast);
             console.log('Added Fast');
-          }, Math.floor(Math.random() * 2 * time++) * 1000);
+          }, Math.floor(Math.random() * 10 * timeFast++) * 1000);
 
           break;
       }
     });
   }
 
-  move() {
+  waveMobsMove() {
     this.mobs.map((mob) => mob.render());
   }
 }
