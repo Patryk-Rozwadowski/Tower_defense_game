@@ -34,7 +34,6 @@ window.onload = () => {
 
     const wave = [tank, tank, tank, fast, fast];
     mobsManager.renderMob(wave);
-    mobsManager.renderMob(wave);
   }
 
   function draw() {

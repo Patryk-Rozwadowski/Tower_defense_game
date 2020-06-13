@@ -3,6 +3,7 @@ import {
   mobCreator,
   TankMob,
 } from '../../CreateElement/Mobs/createTankMob';
+import { mobsModel } from '../../CreateElement/Mobs/Models/tankModel';
 
 export class MobsManager {
   constructor(ctx, spawnPoints, cellSize) {
@@ -10,8 +11,6 @@ export class MobsManager {
     this.cellSize = cellSize;
     this.x = spawnPoints.x - 155 + Math.floor(Math.random() * 155);
     this.y = spawnPoints.y;
-
-    this.mobSize = 5;
     this.mobs = [];
   }
 
@@ -26,14 +25,13 @@ export class MobsManager {
             this.cellSize,
             this.x,
             this.y,
-            mob,
-            500,
-            '#fff',
-            15,
-            0.35
+            mobsModel[mob],
+            mobsModel[mob].hp,
+            mobsModel[mob].color,
+            mobsModel[mob].size,
+            mobsModel[mob].speed
           )
         );
-        console.log(`${mob.toUpperCase()} rendered - game.`);
       }, Math.floor(Math.random() * 3 * time++) * 1000);
     });
     time = 0;

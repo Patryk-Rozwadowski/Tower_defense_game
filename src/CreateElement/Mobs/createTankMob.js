@@ -23,7 +23,7 @@ export const mobCreator = (
 
   const logger = () => ({
     logOk: console.log(
-      `${type.toUpperCase()} created successfully - instance.`
+      `${self.type.type.toUpperCase()} created successfully - instance.`
     ),
   });
 
@@ -35,7 +35,7 @@ export const mobCreator = (
       ctx.fill();
       ctx.stroke();
 
-      //
+      // MOVE
       x += speed;
     },
   });
