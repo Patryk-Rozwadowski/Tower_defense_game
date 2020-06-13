@@ -1,68 +1,44 @@
-// @todo delete duplicates
-export class TankMob {
-  constructor(ctx, cellSize, x, y) {
-    this.ctx = ctx;
-    this.cellSize = cellSize;
-    this.x = x;
-    this.y = y;
-    this.color = '#fff';
-    this.type = 'tank';
-    this.color = '#fff';
-    this.mobSize = 10;
-    this.speed = 0.25;
-    this.hp = 500;
-  }
+export const mobCreator = (
+  ctx,
+  cellSize,
+  x,
+  y,
+  type,
+  hp,
+  color,
+  size,
+  speed
+) => {
+  const self = {
+    ctx,
+    cellSize,
+    x,
+    y,
+    type,
+    hp,
+    color,
+    size,
+    speed,
+  };
 
-  render() {
-    this.ctx.beginPath();
-    this.ctx.fillStyle = this.color;
-    this.ctx.arc(
-      this.x - this.mobSize + 10,
-      this.y + this.cellSize / 2,
-      this.mobSize,
-      0,
-      2 * Math.PI
-    );
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.move();
-  }
+  const logger = () => ({
+    logOk: console.log(
+      `${type.toUpperCase()} created successfully - instance.`
+    ),
+  });
 
-  move() {
-    this.x += this.speed;
-  }
-}
+  const mobRender = () => ({
+    render: () => {
+      ctx.beginPath();
+      ctx.fillStyle = color;
+      ctx.arc(x - size + 10, y + cellSize / 2, size, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
 
-export class FastMob {
-  constructor(ctx, cellSize, x, y) {
-    this.ctx = ctx;
-    this.cellSize = cellSize;
-    this.x = x;
-    this.y = y;
-    this.color = '#fff';
-    this.type = 'fast';
-    this.color = '#fff';
-    this.mobSize = 6;
-    this.speed = 1;
-    this.hp = 200;
-  }
+      //
+      x += speed;
+    },
+  });
 
-  render() {
-    this.ctx.beginPath();
-    this.ctx.fillStyle = this.color;
-    this.ctx.arc(
-      this.x - this.mobSize + 10,
-      this.y + this.cellSize / 2,
-      this.mobSize,
-      0,
-      2 * Math.PI
-    );
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.move();
-  }
-
-  move() {
-    this.x += this.speed;
-  }
-}
+  return Object.assign(self, mobRender(), logger(self.type));
+};
