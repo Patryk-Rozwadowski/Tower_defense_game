@@ -3,5 +3,6 @@ export function createWallTile(x, y) {
     type: 'wall',
     vector: [x, y],
     color: '#FF0000',
+    passable: false,
   };
 }
