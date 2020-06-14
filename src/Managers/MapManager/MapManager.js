@@ -6,7 +6,6 @@ import {
 } from '../../CreateElement/MapElement/Walls/wallsUtils';
 import { createWallTile } from '../../CreateElement/MapElement/Walls/createWallTile';
 import { createTerrainTile } from '../../CreateElement/MapElement/createTerrainTile';
-import { createSpawnPoints } from '../../CreateElement/MapElement/SpawnPoints/createSpawnPoints';
 
 export function aStar(start, end) {
   let openSet = [];
@@ -16,9 +15,10 @@ export function aStar(start, end) {
   openSet.push(start);
   closedSet.push(end);
 
-  while (openSet.length > 0) {
+  if (openSet.length > 0) {
     for (let i = 0; i < openSet.length; i++) {
       if (openSet[winner].f > openSet[i].f) {
+        console.log(openSet[winner]);
         winner = i;
       }
     }
@@ -27,7 +27,6 @@ export function aStar(start, end) {
 
     if (current === end) {
       console.log('Done');
-      break;
     }
 
     removeElementFromArr(openSet, current);
@@ -55,7 +54,8 @@ export class MapManager {
 
     this.cellSize = cellSize;
     this.gameMap = [];
-    this.spawnPoints = [];
+
+    this.terrain = [];
 
     this.startSpawnPoint = {};
     this.endSpawnPoint = {};
@@ -86,6 +86,14 @@ export class MapManager {
 
         this.ctx.fillStyle = this.gameMap[i][j].color;
         this.ctx.fillRect(xVec, yVec, this.cellSize, this.cellSize);
+      }
+    }
+
+    for (let i = 0; i < this.gameMap.length; i++) {
+      for (let j = 0; j < this.gameMap[i].length; j++) {
+        if (this.gameMap[i][j].type === 'terrain') {
+          this.gameMap[i][j].addNeighbors(this.gameMap, i, j);
+        }
       }
     }
   }
@@ -119,18 +127,17 @@ export class MapManager {
 
   _createSpawnAndAddPoints(i, j) {
     if (this._isEndSpawnPoint(i, j, this.rows)) {
-      this.gameMap[i][j] = createSpawnPoints(this.x, this.y);
-      this.endSpawnPoint = { x: this.x, y: this.y };
+      this.gameMap[i][j] = createTerrainTile(this.x, this.y);
+      this.endSpawnPoint = this.gameMap[i][j];
     }
 
     if (this._isStartSpawnPoint(i, j, this.rows)) {
-      this.gameMap[i][j] = createSpawnPoints(this.x, this.y);
-      this.startSpawnPoint = { x: this.x, y: this.y };
+      this.gameMap[i][j] = createTerrainTile(this.x, this.y);
+      this.startSpawnPoint = this.gameMap[i][j];
     }
   }
 
   _isEndSpawnPoint(i, j, rows) {
-    // Calculate center point for rows
     return i === Math.round(rows / 2 - 1) && j === rows - 1;
   }
 

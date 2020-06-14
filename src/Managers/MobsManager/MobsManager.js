@@ -5,8 +5,8 @@ export class MobsManager {
   constructor(ctx, spawnPoints, cellSize, turrets) {
     this.ctx = ctx;
     this.cellSize = cellSize;
-    this.x = spawnPoints.x;
-    this.y = spawnPoints.y;
+    this.x = spawnPoints.vector[0];
+    this.y = spawnPoints.vector[1];
     this.mobs = [];
     this.turrets = turrets;
   }

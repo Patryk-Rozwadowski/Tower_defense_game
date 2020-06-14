@@ -40,10 +40,7 @@ window.onload = () => {
   function draw() {
     mapManager.renderMap();
     // ASTAR
-    // debugger;
-    // let map = mapManager.getGameMap();
-    // let spawnPoints = mapManager.getSpawnPoints();
-    // aStar(map[spawnPoints[0]].vector, map[spawnPoints[1]].vector);
+    aStar(mapManager.getStartSpawnPoint(), mapManager.getEndSpawnPoint());
 
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();
