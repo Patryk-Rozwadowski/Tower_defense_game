@@ -7,26 +7,25 @@ export function createTerrainTile(x, y) {
     vector: [x, y],
     color: '#222',
     neighbors: [],
-    addNeighbors: function (map, i, j) {
+    addNeighbors: function (map, i, j, rows, cols) {
       // i - rows
       // j - cols
-      if (map[i][j].type !== 'terrain') return;
 
-      if (map[i - 1][j].type === 'terrain') {
-        this.neighbors.push(map[i - 1][j]);
+      if (rows > i) {
+        if (map[i + 1][j].type === 'terrain') {
+          this.neighbors.push(map[i + 1][j]);
+        }
       }
 
-      if (map[i + 1][j].type === 'terrain') {
-        this.neighbors.push(map[i + 1][j]);
-      }
-
-      {
+      if (j > 0) {
         if (map[i][j - 1].type === 'terrain')
           this.neighbors.push(map[i][j - 1]);
       }
 
-      if (map[i][j + 1].type === 'terrain') {
-        this.neighbors.push(map[i][j + 1]);
+      if (cols > j) {
+        if (map[i][j + 1].type === 'terrain') {
+          this.neighbors.push(map[i][j + 1]);
+        }
       }
     },
   };

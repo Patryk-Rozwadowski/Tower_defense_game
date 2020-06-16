@@ -15,7 +15,7 @@ export function aStar(start, end) {
   openSet.push(start);
   closedSet.push(end);
 
-  if (openSet.length > 0) {
+  while (openSet.length > 0) {
     for (let i = 0; i < openSet.length; i++) {
       if (openSet[winner].f > openSet[i].f) {
         console.log(openSet[winner]);
@@ -92,7 +92,13 @@ export class MapManager {
     for (let i = 0; i < this.gameMap.length; i++) {
       for (let j = 0; j < this.gameMap[i].length; j++) {
         if (this.gameMap[i][j].type === 'terrain') {
-          this.gameMap[i][j].addNeighbors(this.gameMap, i, j);
+          this.gameMap[i][j].addNeighbors(
+            this.gameMap,
+            i,
+            j,
+            this.rows,
+            this.cols
+          );
         }
       }
     }
