@@ -16,7 +16,13 @@ window.onload = () => {
   ctx.canvas.width = cols * cellSize;
   ctx.canvas.height = rows * cellSize;
 
-  const gameDebugger = new GameDebugger(ctx, cellSize, true);
+  const gameDebugger = new GameDebugger(ctx, cellSize);
+
+  document.getElementById('debugMode').addEventListener('click', function () {
+    gameDebugger.toggleDebuggerMode = this.checked;
+    console.warn(`Debugger mode: ${this.checked}`);
+  });
+
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
   const turretsManager = new TurretsManager(canvas, ctx, cellSize);
   const mapManager = new MapManager(canvas, ctx, cellSize, gameDebugger);

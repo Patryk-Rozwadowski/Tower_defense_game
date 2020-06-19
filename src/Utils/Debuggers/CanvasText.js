@@ -6,6 +6,10 @@ export class GameDebugger {
     this.debugMode = debugMode;
   }
 
+  set toggleDebuggerMode(toggle) {
+    this.debugMode = toggle;
+  }
+
   addText(txt, size, color, vectorX, vectorY, fontFamily = 'Arial') {
     if (!this.debugMode) return;
     this.ctx.beginPath();
