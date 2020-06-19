@@ -1,6 +1,7 @@
 import { normalizedTilePositions } from '../../Units/NormalizedTilePositions';
 import { checkIfTileIsFree } from '../TilesCheckingManager/checkIfTileIsFree';
 import { createTurret } from '../../CreateElement/Turrets/createTurret';
+import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
 
 export class TurretsManager {
   constructor(canvas, ctx, cellSize) {
@@ -15,7 +16,7 @@ export class TurretsManager {
   placeTurret(pickedTurret, vector) {
     const vectorNormY = normalizedTilePositions(vector.y, this.cellSize);
     const vectorNormX = normalizedTilePositions(vector.x, this.cellSize);
-
+    console.log(vectorNormX, vectorNormY);
     this.turretPlacedSuccess = checkIfTileIsFree(
       vector,
       this.turrets,
@@ -34,8 +35,8 @@ export class TurretsManager {
 
           // rendering in the center of cursor position square
           this.ctx.arc(
-            el.x + this.cellSize / 2,
-            el.y + this.cellSize / 2,
+            centerPointOfTile(el.x, this.cellSize),
+            centerPointOfTile(el.y, this.cellSize),
             this.cellSize / 3,
             0,
             2 * Math.PI

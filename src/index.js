@@ -3,6 +3,7 @@ import { TurretsManager } from './Managers/TurretManager/TurretManager';
 import { aStar, MapManager } from './Managers/MapManager/MapManager';
 import { ShopManager } from './Managers/ShopManager/ShopManager';
 import { MobsManager } from './Managers/MobsManager/MobsManager';
+import { GameDebugger } from './Utils/Debuggers/CanvasText';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -10,14 +11,15 @@ window.onload = () => {
 
   const cols = 25;
   const rows = 25;
-  const cellSize = 25;
+  const cellSize = 55;
 
   ctx.canvas.width = cols * cellSize;
   ctx.canvas.height = rows * cellSize;
 
+  const gameDebugger = new GameDebugger(ctx, cellSize, true);
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
   const turretsManager = new TurretsManager(canvas, ctx, cellSize);
-  const mapManager = new MapManager(canvas, ctx, cellSize);
+  const mapManager = new MapManager(canvas, ctx, cellSize, gameDebugger);
 
   mapManager.renderMap();
 
@@ -40,7 +42,14 @@ window.onload = () => {
   function draw() {
     mapManager.renderMap();
     // ASTAR
-    aStar(mapManager.getStartSpawnPoint(), mapManager.getEndSpawnPoint());
+
+    aStar(
+      mapManager.getStartSpawnPoint(),
+      mapManager.getEndSpawnPoint(),
+      ctx,
+      cellSize,
+      gameDebugger
+    );
 
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();

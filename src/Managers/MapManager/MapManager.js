@@ -7,18 +7,18 @@ import {
 import { createWallTile } from '../../CreateElement/MapElement/Walls/createWallTile';
 import { createTerrainTile } from '../../CreateElement/MapElement/createTerrainTile';
 
-export function aStar(start, end) {
+export function aStar(start, end, ctx, cellSize, gameDebugger) {
   let openSet = [];
   let closedSet = [];
   let winner = 0;
 
   openSet.push(start);
+
   closedSet.push(end);
 
   while (openSet.length > 0) {
     for (let i = 0; i < openSet.length; i++) {
       if (openSet[winner].f > openSet[i].f) {
-        console.log(openSet[winner]);
         winner = i;
       }
     }
@@ -29,8 +29,29 @@ export function aStar(start, end) {
       console.log('Done');
     }
 
+    // gameDebugger.fillMap(openSet, '#FF7ec4c1');
+    // gameDebugger.fillMap(closedSet, '#fff');
+
     removeElementFromArr(openSet, current);
     closedSet.push(current);
+
+    current.neighbors.map((neighbor) => {
+      ctx.fillStyle = '#FFd26471';
+      ctx.fillRect(neighbor.vector[0], neighbor.vector[1], cellSize, cellSize);
+
+      if (!closedSet.includes(neighbor)) {
+        const currG = current.g + 1;
+
+        if (openSet.includes(neighbor)) {
+          if (currG < neighbor.g) {
+            neighbor.g = currG;
+          }
+        } else {
+          neighbor.g = currG;
+          openSet.push(neighbor);
+        }
+      }
+    });
   }
 }
 
@@ -43,7 +64,7 @@ function removeElementFromArr(arr, el) {
 }
 
 export class MapManager {
-  constructor(canvas, ctx, cellSize) {
+  constructor(canvas, ctx, cellSize, gameDebugger) {
     this.canvas = canvas;
     this.ctx = ctx;
     this.cols = 25;
@@ -59,6 +80,8 @@ export class MapManager {
 
     this.startSpawnPoint = {};
     this.endSpawnPoint = {};
+
+    this.gameDebugger = gameDebugger;
   }
 
   renderMap() {
@@ -84,6 +107,8 @@ export class MapManager {
         let xVec = this.gameMap[i][j].vector[0];
         let yVec = this.gameMap[i][j].vector[1];
 
+        this.gameDebugger.debugTileVectors(xVec, yVec);
+
         this.ctx.fillStyle = this.gameMap[i][j].color;
         this.ctx.fillRect(xVec, yVec, this.cellSize, this.cellSize);
       }
@@ -94,10 +119,12 @@ export class MapManager {
         if (this.gameMap[i][j].type === 'terrain') {
           this.gameMap[i][j].addNeighbors(
             this.gameMap,
+            this.cellSize,
             i,
             j,
-            this.rows,
-            this.cols
+            this.rows, // max rows
+            this.cols, // max cols
+            this.gameDebugger
           );
         }
       }

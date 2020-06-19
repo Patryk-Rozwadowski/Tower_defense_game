@@ -1,5 +1,5 @@
 export function createTerrainTile(x, y) {
-  const self = {
+  return {
     type: 'terrain',
     f: 0,
     g: 0,
@@ -7,28 +7,46 @@ export function createTerrainTile(x, y) {
     vector: [x, y],
     color: '#222',
     neighbors: [],
-    addNeighbors: function (map, i, j, rows, cols) {
-      // i - rows
-      // j - cols
+    addNeighbors: function (
+      map,
+      cellSize,
+      i,
+      j,
+      maxRows,
+      maxCols,
+      gameDebugger
+    ) {
+      // i - iteration for rows
+      // j - iteration for cols
+      const x = this.vector[0];
+      const y = this.vector[1];
 
-      if (rows > i) {
+      // Upper half of map
+      if (maxCols > j) {
+        if (map[i - 1][j].type === 'terrain') {
+          this.neighbors.push(map[i - 1][j]);
+        }
+      }
+
+      // Bottom half of map
+      if (maxRows > i) {
         if (map[i + 1][j].type === 'terrain') {
           this.neighbors.push(map[i + 1][j]);
         }
       }
 
-      if (j > 0) {
-        if (map[i][j - 1].type === 'terrain')
-          this.neighbors.push(map[i][j - 1]);
-      }
-
-      if (cols > j) {
+      // Fill all columns
+      if (maxCols > j) {
         if (map[i][j + 1].type === 'terrain') {
           this.neighbors.push(map[i][j + 1]);
         }
       }
+
+      // Vertical neighbors
+      if (j > 0) {
+        if (map[i][j - 1].type === 'terrain')
+          this.neighbors.push(map[i][j - 1]);
+      }
     },
   };
-
-  return self;
 }
