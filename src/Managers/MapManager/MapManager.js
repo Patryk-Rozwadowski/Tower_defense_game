@@ -29,15 +29,11 @@ export function aStar(start, end, ctx, cellSize, gameDebugger) {
       console.log('Done');
     }
 
-    // gameDebugger.fillMap(openSet, '#FF7ec4c1');
-    // gameDebugger.fillMap(closedSet, '#fff');
-
     removeElementFromArr(openSet, current);
     closedSet.push(current);
 
     current.neighbors.map((neighbor) => {
-      ctx.fillStyle = '#FFd26471';
-      ctx.fillRect(neighbor.vector[0], neighbor.vector[1], cellSize, cellSize);
+      gameDebugger.fillTile(neighbor.vector, 'rgba(168, 199, 220, 0.25)');
 
       if (!closedSet.includes(neighbor)) {
         const currG = current.g + 1;
