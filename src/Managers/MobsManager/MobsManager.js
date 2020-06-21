@@ -11,7 +11,6 @@ export class MobsManager {
     this.turrets = turrets;
   }
 
-  //- 155 + Math.floor(Math.random() * 155)
   renderMob(wave) {
     let time = 0;
     // @todo find better solution for timing
@@ -35,6 +34,7 @@ export class MobsManager {
     time = 0;
   }
 
+  // @todo seperate from MobsManager
   waveMobsMove() {
     this.mobs.map((mob) => {
       mob.move(mob);

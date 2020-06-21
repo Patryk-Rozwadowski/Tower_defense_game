@@ -1,7 +1,6 @@
 import { normalizedTilePositions } from '../../Units/NormalizedTilePositions';
 import { checkIfTileIsFree } from '../TilesCheckingManager/checkIfTileIsFree';
 import { createTurret } from '../../CreateElement/Turrets/createTurret';
-import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
 
 export class TurretsManager {
   constructor(canvas, ctx, cellSize) {
@@ -35,8 +34,8 @@ export class TurretsManager {
 
           // rendering in the center of cursor position square
           this.ctx.arc(
-            centerPointOfTile(el.x, this.cellSize),
-            centerPointOfTile(el.y, this.cellSize),
+            el.x + this.cellSize / 2,
+            el.y + this.cellSize / 2,
             this.cellSize / 3,
             0,
             2 * Math.PI

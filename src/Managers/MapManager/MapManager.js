@@ -103,10 +103,10 @@ export class MapManager {
         let xVec = this.gameMap[i][j].vector[0];
         let yVec = this.gameMap[i][j].vector[1];
 
-        this.gameDebugger.debugTileVectors(xVec, yVec);
-
         this.ctx.fillStyle = this.gameMap[i][j].color;
         this.ctx.fillRect(xVec, yVec, this.cellSize, this.cellSize);
+
+        this.gameDebugger.debugTileVectors(xVec, yVec);
       }
     }
 

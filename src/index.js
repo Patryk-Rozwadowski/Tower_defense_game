@@ -4,24 +4,21 @@ import { aStar, MapManager } from './Managers/MapManager/MapManager';
 import { ShopManager } from './Managers/ShopManager/ShopManager';
 import { MobsManager } from './Managers/MobsManager/MobsManager';
 import { GameDebugger } from './Utils/Debuggers/CanvasText';
+import { createWave } from './Managers/WaveManager/WaveManager';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
+  const gameDebugModeCheckbox = document.getElementById('debugMode');
 
   const cols = 25;
   const rows = 25;
-  const cellSize = 55;
+  const cellSize = 35;
 
   ctx.canvas.width = cols * cellSize;
   ctx.canvas.height = rows * cellSize;
 
   const gameDebugger = new GameDebugger(ctx, cellSize);
-
-  document.getElementById('debugMode').addEventListener('click', function () {
-    gameDebugger.toggleDebuggerMode = this.checked;
-    console.warn(`Debugger mode: ${this.checked}`);
-  });
 
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
   const turretsManager = new TurretsManager(canvas, ctx, cellSize);
@@ -37,18 +34,10 @@ window.onload = () => {
     turretsManager.getTurrets()
   );
 
-  function createWave() {
-    const fast = 'fast';
-    const tank = 'tank';
-
-    const wave = [tank, tank, tank, fast, fast];
-    mobsManager.renderMob(wave);
-  }
-
-  function draw() {
+  function gameLoop() {
     mapManager.renderMap();
-    // ASTAR
 
+    // ASTAR
     aStar(
       mapManager.getStartSpawnPoint(),
       mapManager.getEndSpawnPoint(),
@@ -61,12 +50,17 @@ window.onload = () => {
     mobsManager.waveMobsMove();
     turretsManager.renderTurrets();
 
-    requestAnimationFrame(draw);
+    requestAnimationFrame(gameLoop);
   }
 
-  draw();
-  createWave();
+  gameLoop();
+  createWave(mobsManager);
   shopManager.init();
+
+  gameDebugModeCheckbox.addEventListener('click', function () {
+    gameDebugger.toggleDebuggerMode = this.checked;
+    console.warn(`Debugger mode: ${this.checked}`);
+  });
 
   mouseManager.gameMouseClickHandler(() => {
     if (shopManager.money > 0) {

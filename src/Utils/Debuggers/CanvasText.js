@@ -1,9 +1,11 @@
+import { centerPointOfTile } from '../Tiles/centerPointOfTile';
+
 export class GameDebugger {
   constructor(ctx, cellSize) {
     this.ctx = ctx;
     this.cellSize = cellSize;
 
-    this.debugMode = false;
+    this.debugMode = true;
   }
 
   set toggleDebuggerMode(toggle) {
@@ -53,8 +55,8 @@ export class GameDebugger {
       `[${x} ${y}]`,
       this.cellSize / 5,
       '#fff',
-      x - this.cellSize / 2,
-      y - this.cellSize / 2
+      centerPointOfTile(x, this.cellSize),
+      centerPointOfTile(y, this.cellSize)
     );
   }
 
