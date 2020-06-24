@@ -1,10 +1,11 @@
 import { MouseManager } from './Managers/MouseManager/MouseManager';
 import { TurretsManager } from './Managers/TurretManager/TurretManager';
-import { aStar, MapManager } from './Managers/MapManager/MapManager';
+import { MapManager } from './Managers/MapManager/MapManager';
 import { ShopManager } from './Managers/ShopManager/ShopManager';
 import { MobsManager } from './Managers/MobsManager/MobsManager';
-import { GameDebugger } from './Utils/Debuggers/CanvasText';
+import { GameDebugger } from './Utils/Debuggers/GameDebugger';
 import { createWave } from './Managers/WaveManager/WaveManager';
+import { aStar } from './PathFinding/aStar';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');

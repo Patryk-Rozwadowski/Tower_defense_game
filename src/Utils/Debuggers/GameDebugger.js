@@ -5,7 +5,7 @@ export class GameDebugger {
     this.ctx = ctx;
     this.cellSize = cellSize;
 
-    this.debugMode = true;
+    this.debugMode = false;
   }
 
   set toggleDebuggerMode(toggle) {

@@ -7,58 +7,6 @@ import {
 import { createWallTile } from '../../CreateElement/MapElement/Walls/createWallTile';
 import { createTerrainTile } from '../../CreateElement/MapElement/createTerrainTile';
 
-export function aStar(start, end, ctx, cellSize, gameDebugger) {
-  let openSet = [];
-  let closedSet = [];
-  let winner = 0;
-
-  openSet.push(start);
-
-  closedSet.push(end);
-
-  while (openSet.length > 0) {
-    for (let i = 0; i < openSet.length; i++) {
-      if (openSet[winner].f > openSet[i].f) {
-        winner = i;
-      }
-    }
-
-    let current = openSet[winner];
-
-    if (current === end) {
-      console.log('Done');
-    }
-
-    removeElementFromArr(openSet, current);
-    closedSet.push(current);
-
-    current.neighbors.map((neighbor) => {
-      gameDebugger.fillTile(neighbor.vector, 'rgba(168, 199, 220, 0.25)');
-
-      if (!closedSet.includes(neighbor)) {
-        const currG = current.g + 1;
-
-        if (openSet.includes(neighbor)) {
-          if (currG < neighbor.g) {
-            neighbor.g = currG;
-          }
-        } else {
-          neighbor.g = currG;
-          openSet.push(neighbor);
-        }
-      }
-    });
-  }
-}
-
-function removeElementFromArr(arr, el) {
-  for (let i = arr.length - 1; i >= 0; i--) {
-    if (arr[i] === el) {
-      arr.splice(i, 1);
-    }
-  }
-}
-
 export class MapManager {
   constructor(canvas, ctx, cellSize, gameDebugger) {
     this.canvas = canvas;
