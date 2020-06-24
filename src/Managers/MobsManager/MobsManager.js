@@ -37,6 +37,7 @@ export class MobsManager {
   // @todo seperate from MobsManager
   waveMobsMove() {
     this.mobs.map((mob) => {
+      debugger;
       mob.move(mob);
       mob.render(mob);
     });

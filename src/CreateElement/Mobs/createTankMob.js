@@ -1,3 +1,5 @@
+import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
+
 export const mobCreator = (
   ctx,
   cellSize,
@@ -33,18 +35,32 @@ export const mobCreator = (
     move: (self) => {
       self.x += speed;
     },
-    render: (self) => {
+    showHp: (self) => {
+      let hpWidth = self.hp / self.size;
+      let xCenter = self.x - self.size * 2;
+      let yCenter = self.y - self.size * 2;
       ctx.beginPath();
+      ctx.Style = '#FF0000';
+
+      ctx.rect(
+        centerPointOfTile(xCenter, cellSize),
+        centerPointOfTile(yCenter, cellSize),
+        hpWidth,
+        2
+      );
+      ctx.stroke();
+    },
+    render: (self) => {
+      self.showHp(self);
       ctx.fillStyle = self.color;
       ctx.arc(
-        self.x - self.size + 10,
-        self.y + self.cellSize / 2,
+        centerPointOfTile(self.x, cellSize),
+        centerPointOfTile(self.y, cellSize),
         self.size,
         0,
         2 * Math.PI
       );
       ctx.fill();
-      ctx.stroke();
     },
   });
 

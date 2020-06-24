@@ -3,7 +3,7 @@ export const mobsModel = {
     type: 'tank',
     hp: 500,
     color: '#fff',
-    size: 12,
+    size: 11,
     speed: 0.35,
   },
   fast: {

@@ -47,7 +47,9 @@ export function aStar(start, end, ctx, cellSize, gameDebugger) {
           openSet.push(neighbor);
         }
 
-        neighbor.g = HeuristicDistance(neiX, neiY, endX, endY);
+        neighbor.h = HeuristicDistance(neiX, neiY, endX, endY);
+        neighbor.f = neighbor.g + neighbor.h;
+        neighbor.cameFrom = current;
       }
     });
   }

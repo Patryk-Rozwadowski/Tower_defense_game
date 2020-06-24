@@ -3,6 +3,6 @@ export function createWave(mobsManager) {
   const fast = 'fast';
   const tank = 'tank';
 
-  const wave = [tank, tank, tank, fast, fast];
+  const wave = [tank, fast];
   mobsManager.renderMob(wave);
 }
