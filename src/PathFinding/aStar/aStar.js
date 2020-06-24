@@ -1,4 +1,5 @@
-import { removeElementFromArrReverse } from '../Utils/RemoveElFromArrReverse';
+import { removeElementFromArrReverse } from '../../Utils/RemoveElFromArrReverse';
+import { HeuristicDistance } from '../HeuristicDistance/HeuristicDistance';
 
 export function aStar(start, end, ctx, cellSize, gameDebugger) {
   let openSet = [];
@@ -26,6 +27,12 @@ export function aStar(start, end, ctx, cellSize, gameDebugger) {
     closedSet.push(current);
 
     current.neighbors.map((neighbor) => {
+      let neiX = neighbor.vector[0];
+      let neiY = neighbor.vector[1];
+
+      let endX = end.vector[0];
+      let endY = end.vector[1];
+
       gameDebugger.fillTile(neighbor.vector, 'rgba(168, 199, 220, 0.25)');
 
       if (!closedSet.includes(neighbor)) {
@@ -39,6 +46,8 @@ export function aStar(start, end, ctx, cellSize, gameDebugger) {
           neighbor.g = currG;
           openSet.push(neighbor);
         }
+
+        neighbor.g = HeuristicDistance(neiX, neiY, endX, endY);
       }
     });
   }

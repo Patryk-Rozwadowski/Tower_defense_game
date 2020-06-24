@@ -14,6 +14,7 @@ export function createTerrainTile(x, y) {
       j,
       maxRows,
       maxCols,
+      // @todo connect debugger to this factory
       gameDebugger
     ) {
       // i - iteration for rows

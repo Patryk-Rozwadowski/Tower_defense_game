@@ -103,6 +103,7 @@ export class MapManager {
   }
 
   _createSpawnAndAddPoints(i, j) {
+    // @todo createTerrain returns type 'terrain', make it more dynamically
     if (this._isEndSpawnPoint(i, j, this.rows)) {
       this.gameMap[i][j] = createTerrainTile(this.x, this.y);
       this.endSpawnPoint = this.gameMap[i][j];
