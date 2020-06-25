@@ -32,9 +32,7 @@ export class TurretsManager {
       switch (turret.type) {
         case 'fastFiringTurret':
           this._renderFastTurret(turret);
-          debugger;
           mobs.map((mob) => {
-            debugger;
             if (
               FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <
               turret.range
@@ -46,7 +44,6 @@ export class TurretsManager {
 
         case 'powerTurret':
           this._renderPowerTurret(turret);
-          debugger;
           mobs.map((mob) => {
             this._shootToMob(turret, mob);
           });

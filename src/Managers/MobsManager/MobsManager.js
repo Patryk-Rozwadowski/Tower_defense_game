@@ -36,7 +36,8 @@ export class MobsManager {
 
   // @todo seperate from MobsManager
   waveMobsMove() {
-    this.mobs.map((mob) => {
+    this.mobs.map((mob, i) => {
+      this._checkMobHp(mob, i);
       mob.move(mob);
       mob.render(mob);
     });
@@ -44,5 +45,11 @@ export class MobsManager {
 
   getMobs() {
     return this.mobs;
+  }
+
+  _checkMobHp(mob, i) {
+    if (mob.hp < 0) {
+      this.mobs.splice(i, 1);
+    }
   }
 }
