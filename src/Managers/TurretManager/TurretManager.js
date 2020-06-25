@@ -27,30 +27,15 @@ export class TurretsManager {
   }
 
   renderTurrets() {
-    this.turrets.map((el) => {
-      switch (el.type) {
+    this.turrets.map((turret) => {
+      switch (turret.type) {
         case 'fastFiringTurret':
-          this.ctx.beginPath();
-          this.ctx.fillStyle = el.color;
+          this._renderFastTurret(turret);
 
-          // rendering in the center of cursor position square
-          this.ctx.arc(
-            centerPointOfTile(el.x, this.cellSize),
-            centerPointOfTile(el.y, this.cellSize),
-            this.cellSize / 3,
-            0,
-            2 * Math.PI
-          );
-
-          this.ctx.fill();
-          this.ctx.stroke();
           break;
 
         case 'powerTurret':
-          this.ctx.beginPath();
-          this.ctx.fillStyle = el.color;
-          this.ctx.fillRect(el.x, el.y, this.cellSize, this.cellSize);
-          this.ctx.stroke();
+          this._renderPowerTurret(turret);
           break;
       }
     });
@@ -62,5 +47,46 @@ export class TurretsManager {
 
   getTurrets() {
     return this.turrets;
+  }
+
+  // @todo duplicates
+  _renderFastTurret(turret) {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = turret.color;
+
+    this.ctx.arc(
+      centerPointOfTile(turret.x, this.cellSize),
+      centerPointOfTile(turret.y, this.cellSize),
+      this.cellSize / 3,
+      0,
+      2 * Math.PI
+    );
+
+    this.ctx.fill();
+    this._showTurretRange(turret);
+    this.ctx.stroke();
+  }
+
+  _renderPowerTurret(turret) {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = turret.color;
+
+    this._showTurretRange(turret);
+
+    this.ctx.fillRect(turret.x, turret.y, this.cellSize, this.cellSize);
+    this.ctx.stroke();
+  }
+
+  _showTurretRange(turret) {
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = '#fff';
+    this.ctx.arc(
+      centerPointOfTile(turret.x, this.cellSize),
+      centerPointOfTile(turret.y, this.cellSize),
+      turret.range,
+      0,
+      2 * Math.PI
+    );
+    this.ctx.stroke();
   }
 }

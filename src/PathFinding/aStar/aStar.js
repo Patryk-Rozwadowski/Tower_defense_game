@@ -1,5 +1,5 @@
 import { removeElementFromArrReverse } from '../../Utils/RemoveElFromArrReverse';
-import { HeuristicDistance } from '../HeuristicDistance/HeuristicDistance';
+import { FindDistanceBetweenVectors } from '../../Managers/TurretManager/FindDistanceBetweenVectors/FindDistanceBetweenVectors';
 
 export function aStar(start, end, ctx, cellSize, gameDebugger) {
   let openSet = [];
@@ -47,7 +47,7 @@ export function aStar(start, end, ctx, cellSize, gameDebugger) {
           openSet.push(neighbor);
         }
 
-        neighbor.h = HeuristicDistance(neiX, neiY, endX, endY);
+        neighbor.h = FindDistanceBetweenVectors(neiX, neiY, endX, endY);
         neighbor.f = neighbor.g + neighbor.h;
         neighbor.cameFrom = current;
       }
