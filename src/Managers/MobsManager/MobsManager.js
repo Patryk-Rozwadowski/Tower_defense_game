@@ -41,4 +41,8 @@ export class MobsManager {
       mob.render(mob);
     });
   }
+
+  getMobs() {
+    return this.mobs;
+  }
 }

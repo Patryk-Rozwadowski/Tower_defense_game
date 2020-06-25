@@ -22,9 +22,9 @@ window.onload = () => {
   const gameDebugger = new GameDebugger(ctx, cellSize);
 
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
-  const turretsManager = new TurretsManager(canvas, ctx, cellSize);
-  const mapManager = new MapManager(canvas, ctx, cellSize, gameDebugger);
 
+  const mapManager = new MapManager(canvas, ctx, cellSize, gameDebugger);
+  const turretsManager = new TurretsManager(canvas, ctx, cellSize);
   mapManager.renderMap();
 
   const shopManager = new ShopManager();
@@ -49,7 +49,7 @@ window.onload = () => {
 
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();
-    turretsManager.renderTurrets();
+    turretsManager.renderTurrets(mobsManager.getMobs());
 
     requestAnimationFrame(gameLoop);
   }

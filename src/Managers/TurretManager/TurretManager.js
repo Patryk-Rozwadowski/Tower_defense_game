@@ -2,6 +2,7 @@ import { normalizedTilePositions } from '../../Units/NormalizedTilePositions';
 import { checkIfTileIsFree } from '../TilesCheckingManager/checkIfTileIsFree';
 import { createTurret } from '../../CreateElement/Turrets/createTurret';
 import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
+import { FindDistanceBetweenVectors } from './FindDistanceBetweenVectors/FindDistanceBetweenVectors';
 
 export class TurretsManager {
   constructor(canvas, ctx, cellSize) {
@@ -26,16 +27,29 @@ export class TurretsManager {
       this.turrets.push(createTurret(pickedTurret, vectorNormX, vectorNormY));
   }
 
-  renderTurrets() {
+  renderTurrets(mobs) {
     this.turrets.map((turret) => {
       switch (turret.type) {
         case 'fastFiringTurret':
           this._renderFastTurret(turret);
-
+          debugger;
+          mobs.map((mob) => {
+            debugger;
+            if (
+              FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <
+              turret.range
+            ) {
+              console.log('pew pew');
+            }
+          });
           break;
 
         case 'powerTurret':
           this._renderPowerTurret(turret);
+          debugger;
+          mobs.map((mob) => {
+            this._shootToMob(turret, mob);
+          });
           break;
       }
     });
@@ -47,6 +61,21 @@ export class TurretsManager {
 
   getTurrets() {
     return this.turrets;
+  }
+
+  _shootToMob(turret, mob) {
+    let mobInRange =
+      FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <
+      turret.range;
+    if (mobInRange) {
+      if (mob.hp > 0 || mobInRange) {
+        let shooting = setInterval(() => {
+          mob.hp -= turret.damage;
+          console.log('pew pew');
+          clearInterval(shooting);
+        }, turret.createFastFiringTurret * 1000);
+      }
+    }
   }
 
   // @todo duplicates
@@ -63,6 +92,7 @@ export class TurretsManager {
     );
 
     this.ctx.fill();
+
     this._showTurretRange(turret);
     this.ctx.stroke();
   }
