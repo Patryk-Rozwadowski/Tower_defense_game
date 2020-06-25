@@ -8,7 +8,7 @@ export function createPowerTurret(x, y) {
     type: turretTypes.power,
     range: 150,
     damage: 60,
-    fastFiring: 1,
+    firingSpeed: 2,
     turret: true,
   };
 }

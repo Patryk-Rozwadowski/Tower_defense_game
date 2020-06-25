@@ -62,16 +62,12 @@ export class TurretsManager {
 
   _shootToMob(turret, mob) {
     let mobInRange =
-      FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <
+      FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <=
       turret.range;
+
     if (mobInRange) {
-      if (mob.hp > 0 || mobInRange) {
-        let shooting = setInterval(() => {
-          mob.hp -= turret.damage;
-          console.log('pew pew');
-          clearInterval(shooting);
-        }, turret.createFastFiringTurret * 1000);
-      }
+      this._drawLaser(turret, mob);
+      mob.hp -= 1;
     }
   }
 
@@ -113,6 +109,22 @@ export class TurretsManager {
       turret.range,
       0,
       2 * Math.PI
+    );
+    this.ctx.stroke();
+  }
+
+  _drawLaser(turret, mob) {
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = '#FF0000';
+    debugger;
+    this.ctx.moveTo(
+      centerPointOfTile(turret.x, this.cellSize),
+      centerPointOfTile(turret.y, this.cellSize)
+    );
+    this.ctx.lineTo(
+      centerPointOfTile(mob.x, this.cellSize),
+      centerPointOfTile(mob.y, this.cellSize)
     );
     this.ctx.stroke();
   }
