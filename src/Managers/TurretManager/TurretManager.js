@@ -12,6 +12,7 @@ export class TurretsManager {
     this.cellSize = cellSize;
     this.turrets = [];
     this.turretPlacedSuccess = true;
+    this.mobsInRange = [];
   }
 
   placeTurret(pickedTurret, vector) {
@@ -32,20 +33,20 @@ export class TurretsManager {
       switch (turret.type) {
         case 'fastFiringTurret':
           this._renderFastTurret(turret);
-          mobs.map((mob) => {
-            if (
-              FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <
-              turret.range
-            ) {
-              console.log('pew pew');
-            }
-          });
           break;
 
         case 'powerTurret':
           this._renderPowerTurret(turret);
-          mobs.map((mob) => {
-            this._shootToMob(turret, mob);
+          mobs.map((mob, index) => {
+            mob.dinstanceFromturret = FindDistanceBetweenVectors(
+              mob.x,
+              mob.y,
+              turret.x,
+              turret.y
+            );
+            if (mob.dinstanceFromturret < turret.range) {
+              this._shootToMob(turret, mob, index);
+            }
           });
           break;
       }
@@ -60,14 +61,41 @@ export class TurretsManager {
     return this.turrets;
   }
 
-  _shootToMob(turret, mob) {
-    let mobInRange =
-      FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <=
-      turret.range;
+  _shootToMob(turret, mob, index) {
+    if (this.isMobInRange(turret, mob)) {
+      this.mobsInRange.push(mob);
 
-    if (mobInRange) {
-      this._drawLaser(turret, mob);
-      mob.hp -= 1;
+      let firstMobInDistance = mob;
+      this._drawLaser(turret, firstMobInDistance);
+      this._dealDamage(firstMobInDistance, index);
+    }
+  }
+
+  isMobInRange(turret, mob) {
+    return (
+      FindDistanceBetweenVectors(turret.x, turret.y, mob.x, mob.y) <=
+      turret.range
+    );
+  }
+
+  _drawLaser(turret, mob) {
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = '#FF0000';
+    this.ctx.moveTo(
+      centerPointOfTile(turret.x, this.cellSize),
+      centerPointOfTile(turret.y, this.cellSize)
+    );
+    this.ctx.lineTo(
+      centerPointOfTile(mob.x, this.cellSize),
+      centerPointOfTile(mob.y, this.cellSize)
+    );
+    this.ctx.stroke();
+  }
+
+  _dealDamage(mob, index) {
+    mob.hp -= 4;
+    if (mob.hp < 0) {
+      this.mobsInRange.slice(index, 1);
     }
   }
 
@@ -109,22 +137,6 @@ export class TurretsManager {
       turret.range,
       0,
       2 * Math.PI
-    );
-    this.ctx.stroke();
-  }
-
-  _drawLaser(turret, mob) {
-    this.ctx.beginPath();
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = '#FF0000';
-    debugger;
-    this.ctx.moveTo(
-      centerPointOfTile(turret.x, this.cellSize),
-      centerPointOfTile(turret.y, this.cellSize)
-    );
-    this.ctx.lineTo(
-      centerPointOfTile(mob.x, this.cellSize),
-      centerPointOfTile(mob.y, this.cellSize)
     );
     this.ctx.stroke();
   }

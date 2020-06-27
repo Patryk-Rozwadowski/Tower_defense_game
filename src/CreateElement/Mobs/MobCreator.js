@@ -1,6 +1,6 @@
 import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
 
-export const mobCreator = (
+export const MobCreator = (
   ctx,
   cellSize,
   x,
@@ -36,7 +36,7 @@ export const mobCreator = (
       self.x += speed;
     },
     showHp: (self) => {
-      let hpWidth = self.hp / self.size;
+      let hpWidth = self.hp / (self.size * 6);
       let xCenter = self.x - self.size * 2;
       let yCenter = self.y - self.size * 2;
       ctx.beginPath();

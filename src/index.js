@@ -49,6 +49,7 @@ window.onload = () => {
 
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();
+
     turretsManager.renderTurrets(mobsManager.getMobs());
 
     requestAnimationFrame(gameLoop);

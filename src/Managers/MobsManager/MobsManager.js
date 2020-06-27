@@ -1,5 +1,5 @@
-import { mobCreator } from '../../CreateElement/Mobs/createTankMob';
-import { mobsModel } from '../../CreateElement/Mobs/Models/tankModel';
+import { MobCreator } from '../../CreateElement/Mobs/MobCreator';
+import { MobsModels } from '../../CreateElement/Mobs/Models/MobsModels';
 
 export class MobsManager {
   constructor(ctx, spawnPoints, cellSize, turrets) {
@@ -17,16 +17,16 @@ export class MobsManager {
     wave.map((mob) => {
       setTimeout(() => {
         this.mobs.push(
-          mobCreator(
+          MobCreator(
             this.ctx,
             this.cellSize,
             this.x,
             this.y,
-            mobsModel[mob],
-            mobsModel[mob].hp,
-            mobsModel[mob].color,
-            mobsModel[mob].size,
-            mobsModel[mob].speed
+            MobsModels[mob],
+            MobsModels[mob].hp,
+            MobsModels[mob].color,
+            MobsModels[mob].size,
+            MobsModels[mob].speed
           )
         );
       }, Math.floor(Math.random() * 3 * time++) * 1000);
