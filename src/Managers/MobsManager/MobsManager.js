@@ -2,13 +2,12 @@ import { MobCreator } from '../../CreateElement/Mobs/MobCreator';
 import { MobsModels } from '../../CreateElement/Mobs/Models/MobsModels';
 
 export class MobsManager {
-  constructor(ctx, spawnPoints, cellSize, turrets) {
+  constructor(ctx, spawnPoints, cellSize) {
     this.ctx = ctx;
     this.cellSize = cellSize;
     this.x = spawnPoints.vector[0];
     this.y = spawnPoints.vector[1];
     this.mobs = [];
-    this.turrets = turrets;
   }
 
   renderMob(wave) {

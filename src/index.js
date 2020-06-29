@@ -24,19 +24,24 @@ window.onload = () => {
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
 
   const mapManager = new MapManager(canvas, ctx, cellSize, gameDebugger);
-  const turretsManager = new TurretsManager(canvas, ctx, cellSize);
   mapManager.renderMap();
 
   const shopManager = new ShopManager();
   const mobsManager = new MobsManager(
     ctx,
     mapManager.getStartSpawnPoint(),
+    cellSize
+  );
+
+  const turretsManager = new TurretsManager(
+    canvas,
+    ctx,
     cellSize,
-    turretsManager.getTurrets()
+    mobsManager.getMobs()
   );
 
   setInterval(() => {
-    turretsManager.turretShooting(mobsManager.getMobs());
+    turretsManager.turretShooting();
   }, 1000);
 
   function gameLoop() {
@@ -54,7 +59,7 @@ window.onload = () => {
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();
 
-    turretsManager.renderTurrets(mobsManager.getMobs());
+    turretsManager.renderTurrets();
 
     requestAnimationFrame(gameLoop);
   }

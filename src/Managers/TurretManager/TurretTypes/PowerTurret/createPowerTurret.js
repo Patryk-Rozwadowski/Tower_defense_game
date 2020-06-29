@@ -7,7 +7,7 @@ export function createPowerTurret(x, y) {
     color: '#FFf5edba',
     type: turretTypes.power,
     range: 150,
-    damage: 10,
+    damage: 100,
     firingSpeed: 2,
     turret: true,
   };

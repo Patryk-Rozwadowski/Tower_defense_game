@@ -6,5 +6,7 @@ export function createFastFiringTurret(x, y) {
     type: 'fastFiringTurret',
     range: 100,
     turret: true,
+    damage: 40,
+    speed: 1,
   };
 }

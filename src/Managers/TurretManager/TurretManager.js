@@ -5,15 +5,14 @@ import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
 import { FindDistanceBetweenVectors } from './FindDistanceBetweenVectors/FindDistanceBetweenVectors';
 
 export class TurretsManager {
-  constructor(canvas, ctx, cellSize) {
+  constructor(canvas, ctx, cellSize, mobs) {
     this.canvas = canvas;
     this.ctx = ctx;
 
     this.cellSize = cellSize;
     this.turrets = [];
     this.turretPlacedSuccess = true;
-    this.showLaser = false;
-    this.mobsInRange = [];
+    this.mobsOnMap = mobs;
   }
 
   placeTurret(pickedTurret, vector) {
@@ -29,38 +28,32 @@ export class TurretsManager {
       this.turrets.push(createTurret(pickedTurret, vectorNormX, vectorNormY));
   }
 
-  renderTurrets(mobs) {
+  renderTurrets() {
     this.turrets.map((turret) => {
       switch (turret.type) {
         case 'fastFiringTurret':
           this._renderFastTurret(turret);
+          this._drawLaser(turret);
           break;
 
         case 'powerTurret':
           this._renderPowerTurret(turret);
-          if (this.showLaser) {
-            debugger;
-            mobs.map((mob) => {
-              if (this.isMobInRange(turret, mob)) {
-                this._drawLaser(mob, turret);
-              }
-            });
-          }
+          this._drawLaser(turret);
           break;
       }
     });
   }
 
-  turretShooting(mobs) {
+  turretShooting() {
     this.turrets.map((turret) => {
-      mobs.map((mob, index) => {
+      this.mobsOnMap.map((mob, index) => {
         mob.dinstanceFromturret = FindDistanceBetweenVectors(
           mob.x,
           mob.y,
           turret.x,
           turret.y
         );
-        if (mob.dinstanceFromturret < turret.range) {
+        if (this.isMobInRange(turret, mob)) {
           this._shootToMob(turret, mob, index);
         }
       });
@@ -82,27 +75,30 @@ export class TurretsManager {
     );
   }
 
-  _drawLaser(turret, mob) {
-    this.ctx.beginPath();
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = '#FF0000';
-    this.ctx.moveTo(
-      centerPointOfTile(turret.x, this.cellSize),
-      centerPointOfTile(turret.y, this.cellSize)
-    );
+  _drawLaser(turret) {
+    this.mobsOnMap.map((mob) => {
+      if (this.isMobInRange(turret, mob)) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeStyle = '#FF0000';
+        this.ctx.moveTo(
+          centerPointOfTile(turret.x, this.cellSize),
+          centerPointOfTile(turret.y, this.cellSize)
+        );
 
-    this.ctx.lineTo(
-      centerPointOfTile(mob.x, this.cellSize),
-      centerPointOfTile(mob.y, this.cellSize)
-    );
-    this.ctx.stroke();
+        this.ctx.lineTo(
+          centerPointOfTile(mob.x, this.cellSize),
+          centerPointOfTile(mob.y, this.cellSize)
+        );
+        this.ctx.stroke();
+      }
+    });
   }
 
   _shootToMob(turret, mob, index) {
     mob.hp -= turret.damage * 10;
-    this.showLaser = true;
     if (mob.hp < 0) {
-      this.mobsInRange.slice(index, 1);
+      this.mobsOnMap.slice(index, 1);
     }
   }
 
