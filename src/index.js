@@ -35,6 +35,10 @@ window.onload = () => {
     turretsManager.getTurrets()
   );
 
+  setInterval(() => {
+    turretsManager.turretShooting(mobsManager.getMobs());
+  }, 1000);
+
   function gameLoop() {
     mapManager.renderMap();
 

@@ -51,6 +51,7 @@ export const MobCreator = (
       ctx.stroke();
     },
     render: (self) => {
+      ctx.beginPath();
       self.showHp(self);
       ctx.fillStyle = self.color;
       ctx.arc(
