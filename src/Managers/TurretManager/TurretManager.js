@@ -13,6 +13,7 @@ export class TurretsManager {
     this.turrets = [];
     this.turretPlacedSuccess = true;
     this.mobsOnMap = mobs;
+    this.shootingAllowed = true;
   }
 
   placeTurret(pickedTurret, vector) {
@@ -33,12 +34,11 @@ export class TurretsManager {
       switch (turret.type) {
         case 'fastFiringTurret':
           this._renderFastTurret(turret);
-          this._drawLaser(turret);
+
           break;
 
         case 'powerTurret':
           this._renderPowerTurret(turret);
-          this._drawLaser(turret);
           break;
       }
     });
@@ -53,8 +53,20 @@ export class TurretsManager {
           turret.x,
           turret.y
         );
-        if (this.isMobInRange(turret, mob)) {
+
+        if (this.isMobInRange(turret, mob) && turret.shootingAllowed) {
+          setTimeout(
+            (function (that) {
+              return function () {
+                turret.shootingAllowed = true;
+              };
+            })(this),
+            turret.attackSpeed
+          );
+
+          turret.shootingAllowed = false;
           this._shootToMob(turret, mob, index);
+          this._drawLaser(turret, mob);
         }
       });
     });
@@ -75,24 +87,22 @@ export class TurretsManager {
     );
   }
 
-  _drawLaser(turret) {
-    this.mobsOnMap.map((mob) => {
-      if (this.isMobInRange(turret, mob)) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = 2;
-        this.ctx.strokeStyle = '#FF0000';
-        this.ctx.moveTo(
-          centerPointOfTile(turret.x, this.cellSize),
-          centerPointOfTile(turret.y, this.cellSize)
-        );
+  _drawLaser(turret, mob) {
+    if (this.isMobInRange(turret, mob)) {
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = '#FF0000';
+      this.ctx.moveTo(
+        centerPointOfTile(turret.x, this.cellSize),
+        centerPointOfTile(turret.y, this.cellSize)
+      );
 
-        this.ctx.lineTo(
-          centerPointOfTile(mob.x, this.cellSize),
-          centerPointOfTile(mob.y, this.cellSize)
-        );
-        this.ctx.stroke();
-      }
-    });
+      this.ctx.lineTo(
+        centerPointOfTile(mob.x, this.cellSize),
+        centerPointOfTile(mob.y, this.cellSize)
+      );
+      this.ctx.stroke();
+    }
   }
 
   _shootToMob(turret, mob, index) {

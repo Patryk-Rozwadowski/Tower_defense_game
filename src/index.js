@@ -40,9 +40,7 @@ window.onload = () => {
     mobsManager.getMobs()
   );
 
-  setInterval(() => {
-    turretsManager.turretShooting();
-  }, 1000);
+  setInterval(() => {}, 1000);
 
   function gameLoop() {
     mapManager.renderMap();
@@ -55,7 +53,7 @@ window.onload = () => {
       cellSize,
       gameDebugger
     );
-
+    turretsManager.turretShooting();
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();
 
