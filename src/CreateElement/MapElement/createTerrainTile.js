@@ -19,8 +19,6 @@ export function createTerrainTile(x, y) {
     ) {
       // i - iteration for rows
       // j - iteration for cols
-      const x = this.vector[0];
-      const y = this.vector[1];
 
       // Upper half of map
       if (maxCols > j) {

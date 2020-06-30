@@ -33,7 +33,7 @@ export class MobsManager {
     time = 0;
   }
 
-  // @todo seperate from MobsManager
+  // @todo separate from MobsManager
   waveMobsMove() {
     this.mobs.map((mob, i) => {
       this._checkMobHp(mob, i);

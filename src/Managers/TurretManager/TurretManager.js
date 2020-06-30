@@ -13,7 +13,6 @@ export class TurretsManager {
     this.turrets = [];
     this.turretPlacedSuccess = true;
     this.mobsOnMap = mobs;
-    this.shootingAllowed = true;
   }
 
   placeTurret(pickedTurret, vector) {
@@ -34,7 +33,6 @@ export class TurretsManager {
       switch (turret.type) {
         case 'fastFiringTurret':
           this._renderFastTurret(turret);
-
           break;
 
         case 'powerTurret':
@@ -55,14 +53,7 @@ export class TurretsManager {
         );
 
         if (this.isMobInRange(turret, mob) && turret.shootingAllowed) {
-          setTimeout(
-            (function (that) {
-              return function () {
-                turret.shootingAllowed = true;
-              };
-            })(this),
-            turret.attackSpeed
-          );
+          setTimeout(() => (turret.shootingAllowed = true), turret.attackSpeed);
 
           turret.shootingAllowed = false;
           this._shootToMob(turret, mob, index);

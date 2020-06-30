@@ -40,12 +40,10 @@ window.onload = () => {
     mobsManager.getMobs()
   );
 
-  setInterval(() => {}, 1000);
-
   function gameLoop() {
     mapManager.renderMap();
 
-    // ASTAR
+    // a*
     aStar(
       mapManager.getStartSpawnPoint(),
       mapManager.getEndSpawnPoint(),

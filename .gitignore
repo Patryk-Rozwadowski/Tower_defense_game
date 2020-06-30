@@ -97,3 +97,4 @@ node_modules
 .cache
 .idea
 dist
+palette

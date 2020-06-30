@@ -4,7 +4,7 @@ export const MobsModels = {
     hp: 3000,
     color: '#fff',
     size: 11,
-    speed: 0.35,
+    speed: 0.5,
     mob: true,
   },
   fast: {
@@ -12,7 +12,7 @@ export const MobsModels = {
     hp: 1000,
     color: '#FF34859d',
     size: 7,
-    speed: 0.5,
+    speed: 1,
     mob: true,
   },
 };
