@@ -1,6 +1,4 @@
 export const shopMenuHeader = (currentMoney) => `
-      <div>
-        <p>Money: ${currentMoney} $</p>
-        <p>Shop:</p>
-      </div>
+        <p class="ui-shop__element">Shop</p>
+        <p class="ui-shop__element">Money: ${currentMoney} $</p>
     `;

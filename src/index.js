@@ -12,9 +12,9 @@ window.onload = () => {
   const ctx = canvas.getContext('2d');
   const gameDebugModeCheckbox = document.getElementById('debugMode');
 
-  const cols = 25;
-  const rows = 25;
-  const cellSize = 35;
+  const cols = 30;
+  const rows = 30;
+  const cellSize = 30;
 
   ctx.canvas.width = cols * cellSize;
   ctx.canvas.height = rows * cellSize;
@@ -23,7 +23,14 @@ window.onload = () => {
 
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
 
-  const mapManager = new MapManager(canvas, ctx, cellSize, gameDebugger);
+  const mapManager = new MapManager(
+    canvas,
+    ctx,
+    cols,
+    rows,
+    cellSize,
+    gameDebugger
+  );
   mapManager.renderMap();
 
   const shopManager = new ShopManager();

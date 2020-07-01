@@ -4,7 +4,7 @@ import { shopTurretList } from './templates/shopTurretList/shopTurretList';
 export class ShopManager {
   constructor() {
     this.money = 140;
-    this.shopRoot = document.getElementById('shop');
+    this.shopRoot = document.getElementById('ui-shop');
     this.pickedTurret = 'powerTurret';
   }
 
@@ -45,6 +45,5 @@ export class ShopManager {
 
   _setPickedTurret(e) {
     this.pickedTurret = e.target.id;
-    return this.getPickedTurret();
   }
 }

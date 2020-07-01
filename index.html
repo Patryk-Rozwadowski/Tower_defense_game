@@ -3,15 +3,23 @@
     <head>
         <meta charset="UTF-8">
         <title>Tower defense game</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="index.scss">
     </head>
     <body style="margin:0; padding: 0;box-sizing: border-box" >
-        <canvas id="canvas"></canvas>
-        <div id="shop"></div>
-        <div class="debugger-menu-container">
-            <input type="checkbox" id="debugMode" >
-            <label for="debugMode">Debug mode</label>
+    <main class="container">
+        <div class="ui-grid-9 center">
+            <canvas class="game-container" id="canvas"></canvas>
         </div>
+        <div class="ui-grid-3 center">
+            <div class="ui-shop" id="ui-shop"></div>
+            <div class="debugger-menu-container">
+                <input type="checkbox" id="debugMode" >
+                <label for="debugMode">Debug mode</label>
+            </div>
+        </div>
+    </main>
+
     </body>
 
     <script src="src/index.js"></script>

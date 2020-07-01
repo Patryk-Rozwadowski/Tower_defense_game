@@ -8,11 +8,11 @@ import { createWallTile } from '../../CreateElement/MapElement/Walls/createWallT
 import { createTerrainTile } from '../../CreateElement/MapElement/createTerrainTile';
 
 export class MapManager {
-  constructor(canvas, ctx, cellSize, gameDebugger) {
+  constructor(canvas, ctx, cols, rows, cellSize, gameDebugger) {
     this.canvas = canvas;
     this.ctx = ctx;
-    this.cols = 25;
-    this.rows = 25;
+    this.cols = cols;
+    this.rows = rows;
 
     this.x = 0;
     this.y = 0;

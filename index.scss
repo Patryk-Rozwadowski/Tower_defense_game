@@ -23,17 +23,15 @@ li {
   list-style: none;
 }
 
-.turretList {
-  font-size: 2em;
-
-  &:hover {
-    color: red;
-    cursor: pointer;
-  }
-}
 
 .active {
   display: inline-block;
   color: red;
   cursor: pointer;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
