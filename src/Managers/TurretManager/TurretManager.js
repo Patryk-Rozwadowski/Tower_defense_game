@@ -5,14 +5,13 @@ import { centerPointOfTile } from '../../Utils/Tiles/centerPointOfTile';
 import { FindDistanceBetweenVectors } from './FindDistanceBetweenVectors/FindDistanceBetweenVectors';
 
 export class TurretsManager {
-  constructor(canvas, ctx, cellSize, mobs) {
-    this.canvas = canvas;
+  constructor(ctx, cellSize, mobsManager) {
     this.ctx = ctx;
 
     this.cellSize = cellSize;
     this.turrets = [];
     this.turretPlacedSuccess = true;
-    this.mobsOnMap = mobs;
+    this.mobsManager = mobsManager;
   }
 
   placeTurret(pickedTurret, vector) {
@@ -44,7 +43,7 @@ export class TurretsManager {
 
   turretShooting() {
     this.turrets.map((turret) => {
-      this.mobsOnMap.map((mob, index) => {
+      this.mobsManager.getMobs().map((mob, index) => {
         mob.dinstanceFromturret = FindDistanceBetweenVectors(
           mob.x,
           mob.y,
@@ -99,7 +98,7 @@ export class TurretsManager {
   _shootToMob(turret, mob, index) {
     mob.hp -= turret.damage * 10;
     if (mob.hp < 0) {
-      this.mobsOnMap.slice(index, 1);
+      this.mobsManager.getMobs().slice(index, 1);
     }
   }
 
@@ -117,7 +116,6 @@ export class TurretsManager {
     );
 
     this.ctx.fill();
-
     this._showTurretRange(turret);
     this.ctx.stroke();
   }

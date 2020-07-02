@@ -4,9 +4,9 @@ import { MapManager } from './Managers/MapManager/MapManager';
 import { ShopManager } from './Managers/ShopManager/ShopManager';
 import { MobsManager } from './Managers/MobsManager/MobsManager';
 import { GameDebugger } from './Utils/Debuggers/GameDebugger';
+import { LifeManager } from './Managers/LifeManager/LifeManager';
 import { createWave } from './Managers/WaveManager/WaveManager';
 import { aStar } from './PathFinding/aStar/aStar';
-import { LifeManager } from './Managers/LifeManager/LifeManager';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -20,10 +20,9 @@ window.onload = () => {
   ctx.canvas.width = cols * cellSize;
   ctx.canvas.height = rows * cellSize;
 
+  // @todo IOC
   const gameDebugger = new GameDebugger(ctx, cellSize);
-
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
-
   const mapManager = new MapManager(
     canvas,
     ctx,
@@ -36,25 +35,17 @@ window.onload = () => {
 
   const lifeManager = new LifeManager();
   const shopManager = new ShopManager();
-  const mobsManager = new MobsManager(
-    ctx,
-    mapManager.getStartSpawnPoint(),
-    cellSize,
-    lifeManager,
-    mapManager.getEndSpawnPoint()
-  );
+  const mobsManager = new MobsManager(ctx, mapManager, cellSize, lifeManager);
 
-  const turretsManager = new TurretsManager(
-    canvas,
-    ctx,
-    cellSize,
-    mobsManager.getMobs()
-  );
+  const turretsManager = new TurretsManager(ctx, cellSize, mobsManager);
+
+  createWave(mobsManager);
+  shopManager.init();
 
   function gameLoop() {
     mapManager.renderMap();
     lifeManager.renderLife();
-    // a*
+
     aStar(
       mapManager.getStartSpawnPoint(),
       mapManager.getEndSpawnPoint(),
@@ -75,9 +66,6 @@ window.onload = () => {
   }
 
   gameLoop();
-
-  createWave(mobsManager);
-  shopManager.init();
 
   gameDebugModeCheckbox.addEventListener('click', function () {
     gameDebugger.toggleDebuggerMode = this.checked;

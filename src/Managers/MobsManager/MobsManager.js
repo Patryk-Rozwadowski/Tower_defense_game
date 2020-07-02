@@ -2,14 +2,13 @@ import { MobCreator } from '../../CreateElement/Mobs/MobCreator';
 import { MobsModels } from '../../CreateElement/Mobs/Models/MobsModels';
 
 export class MobsManager {
-  constructor(ctx, spawnPoints, cellSize, lifeManager, endPoint) {
+  constructor(ctx, mapManager, cellSize, lifeManager) {
     this.ctx = ctx;
     this.cellSize = cellSize;
-    this.lifeManager = lifeManager;
-    this.x = spawnPoints.vector[0];
-    this.y = spawnPoints.vector[1];
 
-    this.endPoint = endPoint;
+    this.mapManager = mapManager;
+    this.lifeManager = lifeManager;
+
     this.mobs = [];
   }
 
@@ -22,8 +21,8 @@ export class MobsManager {
           MobCreator(
             this.ctx,
             this.cellSize,
-            this.x,
-            this.y,
+            this.mapManager.getStartSpawnPoint().vector[0],
+            this.mapManager.getStartSpawnPoint().vector[1],
             MobsModels[mob],
             MobsModels[mob].hp,
             MobsModels[mob].color,
@@ -53,8 +52,8 @@ export class MobsManager {
 
   _checkIfMobHitPlayer(mob, index) {
     if (
-      mob.x === this.endPoint.vector[0] + this.cellSize &&
-      mob.y === this.endPoint.vector[1]
+      mob.x > this.mapManager.getEndSpawnPoint().vector[0] + this.cellSize &&
+      mob.y === this.mapManager.getEndSpawnPoint().vector[1]
     ) {
       console.log('-hp hit');
       this.lifeManager.lifeHit();
