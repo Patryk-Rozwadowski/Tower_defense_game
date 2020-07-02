@@ -12,7 +12,7 @@ export const MobsModels = {
     hp: 1000,
     color: '#FF34859d',
     size: 7,
-    speed: 1,
+    speed: 1.2,
     mob: true,
   },
 };

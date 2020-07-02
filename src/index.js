@@ -6,6 +6,7 @@ import { MobsManager } from './Managers/MobsManager/MobsManager';
 import { GameDebugger } from './Utils/Debuggers/GameDebugger';
 import { createWave } from './Managers/WaveManager/WaveManager';
 import { aStar } from './PathFinding/aStar/aStar';
+import { LifeManager } from './Managers/LifeManager/LifeManager';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -33,11 +34,14 @@ window.onload = () => {
   );
   mapManager.renderMap();
 
+  const lifeManager = new LifeManager();
   const shopManager = new ShopManager();
   const mobsManager = new MobsManager(
     ctx,
     mapManager.getStartSpawnPoint(),
-    cellSize
+    cellSize,
+    lifeManager,
+    mapManager.getEndSpawnPoint()
   );
 
   const turretsManager = new TurretsManager(
@@ -49,7 +53,7 @@ window.onload = () => {
 
   function gameLoop() {
     mapManager.renderMap();
-
+    lifeManager.renderLife();
     // a*
     aStar(
       mapManager.getStartSpawnPoint(),
@@ -63,11 +67,15 @@ window.onload = () => {
     mobsManager.waveMobsMove();
 
     turretsManager.renderTurrets();
-
+    if (lifeManager.checkIfGameOver()) {
+      alert('Game over');
+      return;
+    }
     requestAnimationFrame(gameLoop);
   }
 
   gameLoop();
+
   createWave(mobsManager);
   shopManager.init();
 
