@@ -5,7 +5,8 @@ export const MobsModels = {
     color: '#fff',
     size: 11,
     speed: 0.5,
-    mob: true,
+    reward: 25,
+    score: 10,
   },
   fast: {
     type: 'fast',
@@ -13,6 +14,7 @@ export const MobsModels = {
     color: '#FF34859d',
     size: 7,
     speed: 1.2,
-    mob: true,
+    reward: 15,
+    score: 6,
   },
 };

@@ -9,7 +9,9 @@ export const MobCreator = (
   hp,
   color,
   size,
-  speed
+  speed,
+  reward,
+  score
 ) => {
   const self = {
     id: Math.random(),
@@ -22,6 +24,8 @@ export const MobCreator = (
     color,
     size,
     speed,
+    reward,
+    score,
   };
 
   const logger = () => ({

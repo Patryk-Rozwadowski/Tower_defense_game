@@ -7,6 +7,7 @@ import { GameDebugger } from './Utils/Debuggers/GameDebugger';
 import { LifeManager } from './Managers/LifeManager/LifeManager';
 import { createWave } from './Managers/WaveManager/WaveManager';
 import { aStar } from './PathFinding/aStar/aStar';
+import { ScoreManager } from './Managers/ScoreManager/ScoreManager';
 
 window.onload = () => {
   const canvas = document.getElementById('canvas');
@@ -21,6 +22,7 @@ window.onload = () => {
   ctx.canvas.height = rows * cellSize;
 
   // @todo IOC
+  const scoreManager = new ScoreManager();
   const gameDebugger = new GameDebugger(ctx, cellSize);
   const mouseManager = new MouseManager(canvas, ctx, cellSize);
   const mapManager = new MapManager(
@@ -35,16 +37,26 @@ window.onload = () => {
 
   const lifeManager = new LifeManager();
   const shopManager = new ShopManager();
-  const mobsManager = new MobsManager(ctx, mapManager, cellSize, lifeManager);
+  const mobsManager = new MobsManager(
+    ctx,
+    mapManager,
+    cellSize,
+    lifeManager,
+    shopManager,
+    scoreManager
+  );
 
   const turretsManager = new TurretsManager(ctx, cellSize, mobsManager);
 
   createWave(mobsManager);
+  lifeManager.renderLife();
+
   shopManager.init();
+  scoreManager.renderScore();
+  lifeManager.renderLife();
 
   function gameLoop() {
     mapManager.renderMap();
-    lifeManager.renderLife();
 
     aStar(
       mapManager.getStartSpawnPoint(),

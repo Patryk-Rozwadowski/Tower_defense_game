@@ -2,13 +2,21 @@ import { MobCreator } from '../../CreateElement/Mobs/MobCreator';
 import { MobsModels } from '../../CreateElement/Mobs/Models/MobsModels';
 
 export class MobsManager {
-  constructor(ctx, mapManager, cellSize, lifeManager) {
+  constructor(
+    ctx,
+    mapManager,
+    cellSize,
+    lifeManager,
+    shopManager,
+    scoreManager
+  ) {
     this.ctx = ctx;
     this.cellSize = cellSize;
 
     this.mapManager = mapManager;
     this.lifeManager = lifeManager;
-
+    this.shopManager = shopManager;
+    this.scoreManager = scoreManager;
     this.mobs = [];
   }
 
@@ -27,7 +35,9 @@ export class MobsManager {
             MobsModels[mob].hp,
             MobsModels[mob].color,
             MobsModels[mob].size,
-            MobsModels[mob].speed
+            MobsModels[mob].speed,
+            MobsModels[mob].reward,
+            MobsModels[mob].score
           )
         );
       }, Math.floor(Math.random() * 5 * time++) * 1000);
@@ -55,14 +65,19 @@ export class MobsManager {
       mob.x > this.mapManager.getEndSpawnPoint().vector[0] + this.cellSize &&
       mob.y === this.mapManager.getEndSpawnPoint().vector[1]
     ) {
-      console.log('-hp hit');
       this.lifeManager.lifeHit();
+      this.lifeManager.renderLife();
+
+      this.shopManager.renderPanel();
       this.mobs.splice(index, 1);
     }
   }
 
   _checkMobHp(mob, i) {
     if (mob.hp < 0) {
+      this.shopManager.addMoney(mob.reward);
+      this.scoreManager.addScore(mob.score);
+      this.scoreManager.renderScore();
       this.mobs.splice(i, 1);
     }
   }

@@ -22,6 +22,11 @@ export class ShopManager {
     this.money = value;
   }
 
+  addMoney(value) {
+    this.money += value;
+    console.log(this.money);
+  }
+
   // TURRETS
   getPickedTurret() {
     return this.pickedTurret;
