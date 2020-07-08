@@ -8,24 +8,24 @@ import { createWallTile } from '../../CreateElement/MapElement/Walls/createWallT
 import { createTerrainTile } from '../../CreateElement/MapElement/createTerrainTile';
 
 export class MapManager {
-  constructor(canvas, ctx, cols, rows, cellSize, gameDebugger) {
+  constructor(canvas, ctx, cols, rows, cellSize, gameDebuggerManager) {
     this.canvas = canvas;
     this.ctx = ctx;
+    this.cellSize = cellSize;
+
     this.cols = cols;
     this.rows = rows;
 
     this.x = 0;
     this.y = 0;
 
-    this.cellSize = cellSize;
     this.gameMap = [];
-
     this.terrain = [];
-
     this.startSpawnPoint = {};
     this.endSpawnPoint = {};
 
-    this.gameDebugger = gameDebugger;
+    // MANAGERS
+    this.gameDebuggerManager = gameDebuggerManager;
   }
 
   renderMap() {
@@ -54,7 +54,7 @@ export class MapManager {
         this.ctx.fillStyle = this.gameMap[i][j].color;
         this.ctx.fillRect(xVec, yVec, this.cellSize, this.cellSize);
 
-        this.gameDebugger.debugTileVectors(xVec, yVec);
+        this.gameDebuggerManager.debugTileVectors(xVec, yVec);
       }
     }
 
@@ -68,7 +68,7 @@ export class MapManager {
             j,
             this.rows, // max rows
             this.cols, // max cols
-            this.gameDebugger
+            this.gameDebuggerManager
           );
         }
       }

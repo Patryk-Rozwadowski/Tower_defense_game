@@ -13,6 +13,7 @@ $grid-cols: 12;
 @for $i from 1 through $grid-cols {
   .ui-grid-#{$i} {
     display: flex;
+    flex-direction: column;
     width: 100 / ($grid-cols / $i) * 1%;
   }
 }

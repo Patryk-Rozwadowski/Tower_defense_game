@@ -14,8 +14,8 @@ window.onload = () => {
   const ctx = canvas.getContext('2d');
   const gameDebugModeCheckbox = document.getElementById('debugMode');
 
-  const cols = 30;
-  const rows = 30;
+  const cols = 25;
+  const rows = 25;
   const cellSize = 30;
 
   ctx.canvas.width = cols * cellSize;
@@ -48,6 +48,7 @@ window.onload = () => {
 
   const turretsManager = new TurretsManager(ctx, cellSize, mobsManager);
 
+  mobsManager.inject(turretsManager);
   createWave(mobsManager);
   lifeManager.renderLife();
 
@@ -65,6 +66,7 @@ window.onload = () => {
       cellSize,
       gameDebugger
     );
+
     turretsManager.turretShooting();
     mouseManager.drawMousePosition();
     mobsManager.waveMobsMove();

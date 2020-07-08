@@ -1,5 +1,6 @@
 import { MobCreator } from '../../CreateElement/Mobs/MobCreator';
 import { MobsModels } from '../../CreateElement/Mobs/Models/MobsModels';
+import { checkIfTileIsFree } from '../TilesCheckingManager/checkIfTileIsFree';
 
 export class MobsManager {
   constructor(
@@ -13,11 +14,18 @@ export class MobsManager {
     this.ctx = ctx;
     this.cellSize = cellSize;
 
+    this.mobs = [];
+
+    // MANAGERS
     this.mapManager = mapManager;
+    this.turretsManager = {};
     this.lifeManager = lifeManager;
     this.shopManager = shopManager;
     this.scoreManager = scoreManager;
-    this.mobs = [];
+  }
+
+  inject(turretsManager) {
+    this.turretsManager = turretsManager;
   }
 
   renderMob(wave) {
@@ -50,9 +58,14 @@ export class MobsManager {
     // Render wave moving
     this.mobs.map((mob, i) => {
       this._checkMobHp(mob, i);
+      if (
+        !checkIfTileIsFree(mob, this.turretsManager.getTurrets(), this.cellSize)
+      ) {
+        mob.x -= 2;
+      }
       mob.move(mob);
-      this._checkIfMobHitPlayer(mob, i);
       mob.render(mob);
+      this._checkIfMobHitPlayer(mob, i);
     });
   }
 
@@ -68,7 +81,6 @@ export class MobsManager {
       this.lifeManager.lifeHit();
       this.lifeManager.renderLife();
 
-      this.shopManager.renderPanel();
       this.mobs.splice(index, 1);
     }
   }
@@ -76,6 +88,7 @@ export class MobsManager {
   _checkMobHp(mob, i) {
     if (mob.hp < 0) {
       this.shopManager.addMoney(mob.reward);
+      this.shopManager.renderPanel();
       this.scoreManager.addScore(mob.score);
       this.scoreManager.renderScore();
       this.mobs.splice(i, 1);

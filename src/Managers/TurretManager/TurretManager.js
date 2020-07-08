@@ -7,10 +7,12 @@ import { FindDistanceBetweenVectors } from './FindDistanceBetweenVectors/FindDis
 export class TurretsManager {
   constructor(ctx, cellSize, mobsManager) {
     this.ctx = ctx;
-
     this.cellSize = cellSize;
+
     this.turrets = [];
     this.turretPlacedSuccess = true;
+
+    // MANAGERS
     this.mobsManager = mobsManager;
   }
 

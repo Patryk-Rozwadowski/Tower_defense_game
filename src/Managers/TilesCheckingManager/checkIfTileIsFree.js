@@ -1,16 +1,16 @@
 import { normalizedTilePositions } from '../../Units/NormalizedTilePositions';
 
-export function checkIfTileIsFree(vector, turrets, cellSize) {
+export function checkIfTileIsFree(object, turrets, cellSize) {
   let freeTile = true;
 
   for (let i = 0; i < turrets.length; i++) {
     const turretChosenTileSameVectors =
-      turrets[i].x === normalizedTilePositions(vector.x, cellSize) &&
-      turrets[i].y === normalizedTilePositions(vector.y, cellSize);
+      turrets[i].x === normalizedTilePositions(object.x, cellSize) &&
+      turrets[i].y === normalizedTilePositions(object.y, cellSize);
 
     const turretChosenTileDiffVectors =
-      turrets[i].x !== normalizedTilePositions(vector.x, cellSize) &&
-      turrets[i].y !== normalizedTilePositions(vector.y, cellSize);
+      turrets[i].x !== normalizedTilePositions(object.x, cellSize) &&
+      turrets[i].y !== normalizedTilePositions(object.y, cellSize);
 
     // Check if tile is already taken
     if (turretChosenTileSameVectors) {
