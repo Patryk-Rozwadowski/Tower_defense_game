@@ -6,3 +6,15 @@
 
 - Tanks - High hp, low movement speed
 - Fast - Low hp, Fast movement speed
+
+
+# Live : https://patryk-rozwadowski.github.io/Tower_defense_game/
+
+Todo:
+- Add collision detection for mobs
+- Finish A* algorithm for path finding
+- Add more turrets/mobs types
+- Add server / database for player leaderboards
+- Add mob's wave generator
+- Multiplayer (?)
+- More UI features
