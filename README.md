@@ -1,4 +1,4 @@
-# Simple tower defense game
+# Simple tower defense game in vanilla javascript
 
 #### In brief: your mission is preventing enemies from reaching exit point!
 
@@ -7,8 +7,8 @@
 - Tanks - High hp, low movement speed
 - Fast - Low hp, Fast movement speed
 
-
-# Live : https://patryk-rozwadowski.github.io/Tower_defense_game/
+# Live game: 
+https://patryk-rozwadowski.github.io/Tower_defense_game/
 
 Todo:
 - Add collision detection for mobs
